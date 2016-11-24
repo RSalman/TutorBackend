@@ -5,11 +5,11 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version: 2.3.1p112
 
-* System dependencies
+* System dependencies: MySQL 5.7.16
 
-* Configuration
+* Configuration: Windows 10
 
 * Database creation
 
