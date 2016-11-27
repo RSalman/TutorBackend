@@ -9,7 +9,7 @@
             "branch": "master",
             "remote": "origin",
             "path": "~/TutorBackend",
-            "deploy": "echo deploying",
+            "deploy": "~/TutorBackend/deploy.sh",
             "secret-token": "763E3269C234D9A3D1F665DD46AEC",
             "filters": [
                 {
