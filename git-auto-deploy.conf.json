@@ -1,0 +1,23 @@
+{
+    "pidfilepath": "~/.gitautodeploy.pid",
+    "logfilepath": "~/gitautodeploy.log",
+    "host": "0.0.0.0",
+    "port": 3333,
+    "repositories": [
+        {
+            "url": "https://github.com/pliu/TutorBackend.git",
+            "branch": "master",
+            "remote": "origin",
+            "path": "~/TutorBackend",
+            "deploy": "~/TutorBackend/deploy.sh",
+            "secret-token": "763E3269C234D9A3D1F665DD46AEC",
+            "filters": [
+                {
+                    "action": "closed",
+                    "pull_request": true,
+                    "pull_request.base.ref": "master"
+                }
+            ]
+        }
+    ]
+}
