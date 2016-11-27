@@ -8,8 +8,8 @@
             "url": "https://github.com/pliu/TutorBackend.git",
             "branch": "master",
             "remote": "origin",
-            "path": "~/TutorBackend/deploy.sh",
-            "deploy": "echo deploying",
+            "path": "~/TutorBackend",
+            "deploy": "~/TutorBackend/deploy.sh",
             "secret-token": "763E3269C234D9A3D1F665DD46AEC",
             "filters": [
                 {
