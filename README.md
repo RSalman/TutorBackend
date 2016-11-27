@@ -17,7 +17,7 @@
 
 * Database initialization: rake db:migrate
 
-* How to run the test suite:
+* How to run the test suite: rake test
 
 * Deployment configuration instructions:
 
@@ -33,13 +33,15 @@
         git clone https://github.com/olipo186/Git-Auto-Deploy.git
         git clone https://github.com/pliu/TutorBackend.git
         mv ~/TutorBackend/git-auto-deploy.conf.json ~/Git-Auto-Deploy/
+        git config --global credential.helper store (followed by entering git https credentials)
         python ~/Git-Auto-Deploy/GitAutoDeploy.py --config ~/Git-Auto-Deploy/git-auto-deploy.conf.json
 
 * Deployment instructions:
 
         cd TutorBackend
-        git pull (required after first deployment)
         bundle install
-        rake db:create (unsure if needed)
+        rake db:create (not sure if needed)
         rake db:migrate
-        rails server -b 0.0.0.0
+        mv bin/rails_linux bin/rails
+        rails server -d -b 0.0.0.0 (first time)
+        rails restart (subsequent times)
