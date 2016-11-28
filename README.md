@@ -49,15 +49,16 @@
         echo 'export RAILS_SERVE_STATIC_FILES=true' >> ~/.bashrc
         echo 'export RAILS_ENV=production' >> ~/.bashrc
         echo 'export TUTORBACKEND_DATABASE_PASSWORD={TUTORBACKEND DATABASE PASSWORD}' >> ~/.bashrc
-        cd TutorBackend && echo "export SECRET_KEY_BASE=$(rails secret)" >> ~/.bashrc && cd ..
+        cd ~/TutorBackend && echo "export SECRET_KEY_BASE=$(rails secret)" >> ~/.bashrc && cd ~
         source ~/.bashrc
         
-        git clone https://github.com/olipo186/Git-Auto-Deploy.git
-        git clone https://github.com/pliu/TutorBackend.git
+        git config --global credential.helper store
+        git clone https://github.com/olipo186/Git-Auto-Deploy.git ~
+        git clone https://github.com/pliu/TutorBackend.git ~
+        cd ~/TutorBackend && git checkout -b master origin/master && cd ~
+        mv ~/TutorBackend/git-auto-deploy.conf.json ~/Git-Auto-Deploy/
  
         pip install -r ~/Git-Auto-Deploy/requirements.txt
-        mv ~/TutorBackend/git-auto-deploy.conf.json ~/Git-Auto-Deploy/
-        git config --global credential.helper store (followed by entering git https credentials)
         python ~/Git-Auto-Deploy/GitAutoDeploy.py -d --config ~/Git-Auto-Deploy/git-auto-deploy.conf.json
 
 * Deployment instructions (first deploy):
