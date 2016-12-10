@@ -55,7 +55,6 @@
         git config --global credential.helper store
         git clone https://github.com/olipo186/Git-Auto-Deploy.git ~
         git clone https://github.com/pliu/TutorBackend.git ~
-        cd ~/TutorBackend && git checkout -b master origin/master && cd ~
         mv ~/TutorBackend/git-auto-deploy.conf.json ~/Git-Auto-Deploy/
  
         pip install -r ~/Git-Auto-Deploy/requirements.txt
