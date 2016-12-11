@@ -8,10 +8,16 @@
 
         Steps taken to resolve SSL error downloading gems:
             Download rubygems_update version 2.6.8 (latest version at this time)
-            Install rubygems_update: gem install rubygems-update-2.6.8.gem
-            Run it: update_rubygems --no-ri --no-rdoc
+            gem install rubygems-update-2.6.8.gem
+            update_rubygems --no-ri --no-rdoc
             Make sure gem -v returns version 2.6.8
-            [Optional] Uninstall rubygems_update: gem uninstall rubygems-update -x
+            [Optional] gem uninstall rubygems-update -x
+            
+        Steps taken to resolve bcrypt LoadError:
+            gem uninstall devise
+            gem uninstall bcrypt
+            gem install bcrypt --platform=ruby
+            gem install devise
 
 * Database creation: rake db:create
 
@@ -55,7 +61,6 @@
         git config --global credential.helper store
         git clone https://github.com/olipo186/Git-Auto-Deploy.git ~
         git clone https://github.com/pliu/TutorBackend.git ~
-        cd ~/TutorBackend && git checkout -b master origin/master && cd ~
         mv ~/TutorBackend/git-auto-deploy.conf.json ~/Git-Auto-Deploy/
  
         pip install -r ~/Git-Auto-Deploy/requirements.txt
