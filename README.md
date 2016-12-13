@@ -47,10 +47,13 @@
         sudo gem install bundler
         sudo mysql_secure_installation
         
+        Generate a secret:
+            cd ~/TutorBackend && rails secret && cd ~
+        
         Set up the MySQL database:
             mysql -u root --password={ROOT DATABASE PASSWORD}
             CREATE USER 'TutorBackend'@'localhost' IDENTIFIED BY '{TUTORBACKEND DATABASE PASSWORD}';
-            GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON TutorBackend_production.* TO 'TutorBackend'@'localhost';
+            GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,INDEX ON TutorBackend_production.* TO 'TutorBackend'@'localhost';
  
         echo 'export RAILS_SERVE_STATIC_FILES=true' >> ~/.bashrc
         echo 'export RAILS_ENV=production' >> ~/.bashrc
@@ -69,8 +72,8 @@
 * Deployment instructions (first deploy):
 
         cd ~/TutorBackend
-        bundle install
-        rake db:create
+        bundle install --deployment
+        rake db:schema:load
         rake db:migrate
         mv bin/rails_linux bin/rails
         rails server -d -b 0.0.0.0
