@@ -47,9 +47,6 @@
         sudo gem install bundler
         sudo mysql_secure_installation
         
-        Generate a secret:
-            cd ~/TutorBackend && rails secret && cd ~
-        
         Set up the MySQL database:
             mysql -u root --password={ROOT DATABASE PASSWORD}
             CREATE USER 'TutorBackend'@'localhost' IDENTIFIED BY '{TUTORBACKEND DATABASE PASSWORD}';
