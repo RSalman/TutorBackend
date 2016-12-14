@@ -52,9 +52,6 @@ group :development do
   # A Ruby static code analyzer
   gem 'rubocop'
 
-  # Another Ruby static code analyzer (checks for different things)
-  gem 'ruby-lint'
-
   # Checks to see if using Rails best practices
   gem 'rails_best_practices'
 end
