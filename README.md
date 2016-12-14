@@ -8,10 +8,10 @@
 
         cd ~/TutorBackend
         bundle install
+        rake db:create
         rake db:migrate
         mv bin/rails_linux bin/rails
-        overcommit --install
-        overcommit --sign
+        overcommit --install && overcommit --sign
         rails server -d -b 0.0.0.0
 
         Create feature branches off of staging (git checkout -b feature-branch origin/staging)
