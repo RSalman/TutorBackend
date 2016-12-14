@@ -25,6 +25,15 @@
 
 * Development instructions:
 
+        cd ~/TutorBackend
+        bundle install
+        rake db:schema:load
+        rake db:migrate
+        mv bin/rails_linux bin/rails
+        overcommit --install
+        overcommit --sign
+        rails server -d -b 0.0.0.0
+
         staging is the development trunk (test against staging)
         We periodically submit pull requests from staging to master to deploy new features/fixes
         master is automatically deployed to production (an Azure VM)
