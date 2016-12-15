@@ -4,6 +4,24 @@
 
 * System dependencies: Windows 10, MySQL 5.7.16, DevKit 4.7.2
 
+* Development instructions:
+
+        cd ~/TutorBackend
+        bundle install
+        rake db:schema:load
+        rake db:migrate
+        overcommit --install && overcommit --sign
+        rails server -d -b 0.0.0.0
+
+        Create feature branches off of staging (git checkout -b feature-branch origin/staging)
+        Staging is the development trunk (test against staging)
+        We periodically submit pull requests from staging to master to deploy new features/fixes
+        master is automatically deployed to production (an Azure VM)
+        
+        TIP: Git pull and rebase your feature branch onto staging regularly to ensure freshness (git rebase staging)
+        IMPORTANT: When submitting a pull request to staging, always squash and merge. When submitting to master, always rebase!!!
+        NOTE: Always git pull and rebase onto staging prior to submitting a pull request
+
 * Configuration:
 
         Steps taken to resolve SSL error downloading gems:
@@ -23,15 +41,6 @@
 
 * Database initialization: rake db:migrate
 
-* Development instructions:
-
-        staging is the development trunk (test against staging)
-        We periodically submit pull requests from staging to master to deploy new features/fixes
-        master is automatically deployed to production (an Azure VM)
-        
-        Create feature branches off of staging
-        Git pull and rebase onto staging regularly to ensure freshness
-        Always git pull and rebase onto staging prior to submitting a pull request
 
 * How to run the test suite: rake test
 
