@@ -8,9 +8,8 @@
 
         cd ~/TutorBackend
         bundle install
-        rake db:create
+        rake db:schema:load
         rake db:migrate
-        mv bin/rails_linux bin/rails
         overcommit --install && overcommit --sign
         rails server -d -b 0.0.0.0
 
@@ -20,6 +19,7 @@
         master is automatically deployed to production (an Azure VM)
         
         TIP: Git pull and rebase your feature branch onto staging regularly to ensure freshness (git rebase staging)
+        IMPORTANT: When submitting a pull request to staging, always squash and merge. When submitting to master, always rebase!!!
         NOTE: Always git pull and rebase onto staging prior to submitting a pull request
 
 * Configuration:
