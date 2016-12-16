@@ -3,7 +3,7 @@
 ### Setup
 Install Rails and MySQL. Follow [these instructions](http://stackoverflow.com/questions/5996834/how-to-install-ruby-on-rails-with-mysql-and-get-it-working-a-step-by-step-guide) if on Windows.
 
-Execute the following commands after installing Rails and MySQL:
+Execute the following commands after installing Rails and MySQL and cloning the repository:
 ```
 $ cd ~/TutorBackend
 $ bundle install
