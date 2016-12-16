@@ -1,27 +1,30 @@
-# README (Fix/add anything you felt was unclear)
+## Development Instructions
 
-* Ruby version: 2.3.1p112
+### Setup
+Install Rails and MySQL. Follow [these](http://stackoverflow.com/questions/5996834/how-to-install-ruby-on-rails-with-mysql-and-get-it-working-a-step-by-step-guide) if on Windows.
 
-* System dependencies: Windows 10, MySQL 5.7.16, DevKit 4.7.2
+Execute the following commands after installing Rails and MySQL:
+```
+$ cd ~/TutorBackend
+$ bundle install
+$ rake db:schema:load
+$ rake db:migrate
+$ overcommit --install && overcommit --sign
+$ rails server -d -b 0.0.0.0
+```
 
-* Development instructions:
+### Development Steps
+* Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
+* Git pull and rebase your feature branch onto staging regularly to ensure freshness: `git rebase staging`
+* **IMPORTANT: When submitting a pull request to *staging*, always squash and merge. When submitting to master, always rebase! **
+* Always git pull and rebase onto staging prior to submitting a pull request.
 
-        cd ~/TutorBackend
-        bundle install
-        rake db:schema:load
-        rake db:migrate
-        overcommit --install && overcommit --sign
-        rails server -d -b 0.0.0.0
+*NOTE: We periodically submit pull requests from staging to master to deploy new features/fixes master is automatically deployed to production (an Azure VM)*
 
-        Create feature branches off of staging (git checkout -b feature-branch origin/staging)
-        Staging is the development trunk (test against staging)
-        We periodically submit pull requests from staging to master to deploy new features/fixes
-        master is automatically deployed to production (an Azure VM)
+### Running tests
+Simple: `rake test`
         
-        TIP: Git pull and rebase your feature branch onto staging regularly to ensure freshness (git rebase staging)
-        IMPORTANT: When submitting a pull request to staging, always squash and merge. When submitting to master, always rebase!!!
-        NOTE: Always git pull and rebase onto staging prior to submitting a pull request
-
+## Deployment Instructions and Miscellaneous
 * Configuration:
 
         Steps taken to resolve SSL error downloading gems:
@@ -40,9 +43,6 @@
 * Database creation: rake db:create
 
 * Database initialization: rake db:migrate
-
-
-* How to run the test suite: rake test
 
 * Deployment configuration instructions:
 
