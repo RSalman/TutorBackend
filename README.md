@@ -17,7 +17,7 @@ $ rails server -d -b 0.0.0.0
 * Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
 * Git pull and rebase your feature branch onto staging regularly to ensure freshness: `git rebase staging`
 * Always git pull and rebase onto staging prior to submitting a pull request.
-* IMPORTANT: When submitting a pull request to *staging*, always **squash and merge**. When submitting to master, always **rebase**!
+* IMPORTANT!!: When submitting a pull request to *staging*, always **squash and merge**. When submitting to *master*, always **rebase**!
 
 *NOTE: We periodically submit pull requests from staging to master to deploy new features/fixes master is automatically deployed to production (an Azure VM).*
 
