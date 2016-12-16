@@ -17,6 +17,7 @@ $ rake db:migrate
 $ overcommit --install && overcommit --sign
 $ rails server -d -b 0.0.0.0
 ```
+You may need to update the `password` in `config/database.yml` with the password you setup for your MySQL server.
 
 ### Development Steps
 * Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
