@@ -1,5 +1,6 @@
 module Api
   module V1
+    # REST endpoints for Users.
     class UsersController < ApplicationController
       respond_to :json
 

@@ -20,6 +20,7 @@ $ rails server -d -b 0.0.0.0
 You may need to update the `password` in `config/database.yml` with the password you setup for your MySQL server.
 
 ### Development Steps
+* Run `rubocop -a` before comitting to format your code properly!
 * Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
 * Git pull and rebase your feature branch onto staging regularly to ensure freshness: `git rebase staging`
 * Always git pull and rebase onto staging prior to submitting a pull request.
