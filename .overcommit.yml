@@ -20,6 +20,10 @@ PreCommit:
     enabled: true
     on_warn: fail # Treat all warnings as failures
 
+  Reek:
+    enabled: true
+    on_warn: fail
+
   BundleCheck:
     enabled: true
     on_warn: fail

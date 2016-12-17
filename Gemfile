@@ -56,6 +56,9 @@ group :development do
   # A Ruby static code analyzer
   gem 'rubocop'
 
+  # Reports Code Smell
+  gem 'reek'
+
   # Checks to see if using Rails best practices
   gem 'rails_best_practices'
 end
