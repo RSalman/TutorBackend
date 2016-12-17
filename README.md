@@ -1,9 +1,37 @@
-# README (Fix/add anything you felt was unclear)
+## Development Instructions
 
-* Ruby version: 2.3.1p112
+### Setup
 
-* System dependencies: Windows 10, MySQL 5.7.16, DevKit 4.7.2
+## Prerequisites
+* Ruby Version: 2.3.1p112
+* System Dependencies: MySQL 5.7.16, DevKit 4.7.2
+* Install Rails. Follow [these instructions](http://stackoverflow.com/questions/5996834/how-to-install-ruby-on-rails-with-mysql-and-get-it-working-a-step-by-step-guide) if on Windows.
 
+## Steps
+Execute the following commands after installing Rails and MySQL and cloning the repository:
+```
+$ cd ~/TutorBackend
+$ bundle install
+$ rake db:schema:load
+$ rake db:migrate
+$ overcommit --install && overcommit --sign
+$ rails server -d -b 0.0.0.0
+```
+You may need to update the `password` in `config/database.yml` with the password you setup for your MySQL server.
+
+### Development Steps
+* Run `rubocop -a` before comitting to format your code properly!
+* Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
+* Git pull and rebase your feature branch onto staging regularly to ensure freshness: `git rebase staging`
+* Always git pull and rebase onto staging prior to submitting a pull request.
+* IMPORTANT!!: When submitting a pull request to *staging*, always **squash and merge**. When submitting to *master*, always **rebase**!
+
+*NOTE: We periodically submit pull requests from staging to master to deploy new features/fixes master is automatically deployed to production (an Azure VM).*
+
+### Running Tests
+Simple: `rake test`
+        
+## Deployment Instructions and Miscellaneous
 * Configuration:
 
         Steps taken to resolve SSL error downloading gems:
@@ -22,18 +50,6 @@
 * Database creation: rake db:create
 
 * Database initialization: rake db:migrate
-
-* Development instructions:
-
-        staging is the development trunk (test against staging)
-        We periodically submit pull requests from staging to master to deploy new features/fixes
-        master is automatically deployed to production (an Azure VM)
-        
-        Create feature branches off of staging
-        Git pull and rebase onto staging regularly to ensure freshness
-        Always git pull and rebase onto staging prior to submitting a pull request
-
-* How to run the test suite: rake test
 
 * Deployment configuration instructions:
 
