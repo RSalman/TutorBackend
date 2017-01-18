@@ -1,7 +1,8 @@
+# A user of the application.
 class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 end
