@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170207225540) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.index ["course_id"], name: "index_tutor_subjects_on_course_id", using: :btree
+    t.index ["tutor_info_id", "course_id"], name: "index_tutor_subjects_on_tutor_info_id_and_course_id", unique: true, using: :btree
     t.index ["tutor_info_id"], name: "index_tutor_subjects_on_tutor_info_id", using: :btree
   end
 

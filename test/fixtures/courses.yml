@@ -1,11 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  course_prefix: MyString
-  course_code: MyString
-  course_name: MyString
-
-two:
-  course_prefix: MyString
-  course_code: MyString
-  course_name: MyString
+CSI2132:
+  course_prefix: CSI
+  course_code: 2132
+  course_name: Database I

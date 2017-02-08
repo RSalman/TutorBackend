@@ -33,5 +33,5 @@ PreCommit:
     on_warn: fail
 
   RailsSchemaUpToDate: # https://github.com/brigade/overcommit/blob/master/lib/overcommit/hook/pre_commit/rails_schema_up_to_date.rb
-    enabled: true
+    enabled: false
     on_warn: fail

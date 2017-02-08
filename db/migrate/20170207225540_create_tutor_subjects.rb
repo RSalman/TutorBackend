@@ -10,5 +10,6 @@ class CreateTutorSubjects < ActiveRecord::Migration[5.0]
 
     add_foreign_key :tutor_subjects, :tutor_infos, on_delete: :cascade
     add_foreign_key :tutor_subjects, :courses, on_delete: :cascade
+    add_index :tutor_subjects, [:tutor_info_id, :course_id], unique: true
   end
 end
