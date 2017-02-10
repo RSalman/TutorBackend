@@ -24,7 +24,7 @@ You may need to update the `password` in `config/database.yml` with the password
 * Create feature branches off of staging: `git checkout -b feature-branch-name origin/staging`
 * Git pull and rebase your feature branch onto staging regularly to ensure freshness: `git rebase staging`
 * Always git pull and rebase onto staging prior to submitting a pull request.
-* IMPORTANT!!: When submitting a pull request to *staging*, always **squash and merge**. When submitting to *master*, always **rebase**!
+* IMPORTANT!!: When submitting a pull request to *staging*, always **squash and merge**. When submitting to *master*, always **merge**!
 
 *NOTE: We periodically submit pull requests from staging to master to deploy new features/fixes master is automatically deployed to production (an Azure VM).*
 
@@ -42,10 +42,8 @@ Simple: `rake test`
             [Optional] gem uninstall rubygems-update -x
             
         Steps taken to resolve bcrypt LoadError:
-            gem uninstall devise
-            gem uninstall bcrypt
+            gem uninstall bcrypt (all versions)
             gem install bcrypt --platform=ruby
-            gem install devise
 
 * Database creation: rake db:create
 
