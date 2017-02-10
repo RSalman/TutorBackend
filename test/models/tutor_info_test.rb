@@ -1,4 +1,4 @@
-require 'minitest_helper'
+require 'test_helper'
 
 class TutorInfoTest < ActiveSupport::TestCase
   def setup

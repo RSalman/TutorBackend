@@ -1,12 +1,9 @@
-require 'minitest_helper'
+require 'test_helper'
 
 class TutorSubjectTest < ActiveSupport::TestCase
   def setup
-    @course = Course.find_by(course_prefix: 'CSI', course_code: '2132')
-    unless @course
-      @course = Course.create(course_prefix: 'CSI', course_code: '2132',
-                              course_name: 'Database I')
-    end
+    @course = Course.create(course_prefix: 'CSI', course_code: '2132',
+                            course_name: 'Database I')
     @user = User.new(name: 'Test')
     @info = TutorInfo.new
     @user.tutor_info = @info
