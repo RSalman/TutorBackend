@@ -21,7 +21,10 @@ PreCommit:
     on_warn: fail # Treat all warnings as failures
 
   Reek:
-    enabled: false
+    exclude:
+      - '/db/migrate/*'
+      - '/test/**/**'
+    enabled: true
     on_warn: fail
 
   BundleCheck:
@@ -33,5 +36,5 @@ PreCommit:
     on_warn: fail
 
   RailsSchemaUpToDate: # https://github.com/brigade/overcommit/blob/master/lib/overcommit/hook/pre_commit/rails_schema_up_to_date.rb
-    enabled: false
+    enabled: true
     on_warn: fail
