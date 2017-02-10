@@ -30,13 +30,14 @@ ActiveRecord::Schema.define(version: 20170207225540) do
   end
 
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint   "tutor_info_id",           null: false
-    t.bigint   "course_id",               null: false
-    t.integer  "rate",          limit: 4, null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.bigint   "tutor_info_id",                           null: false
+    t.bigint   "course_id",                               null: false
+    t.integer  "rate",          limit: 4,                 null: false
+    t.boolean  "deleted",                 default: false, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.index ["course_id"], name: "index_tutor_subjects_on_course_id", using: :btree
-    t.index ["tutor_info_id", "course_id"], name: "index_tutor_subjects_on_tutor_info_id_and_course_id", unique: true, using: :btree
+    t.index ["tutor_info_id", "course_id", "created_at"], name: "subject_index", unique: true, using: :btree
     t.index ["tutor_info_id"], name: "index_tutor_subjects_on_tutor_info_id", using: :btree
   end
 
