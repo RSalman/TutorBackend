@@ -11,7 +11,7 @@ class TutorInfoTest < ActiveSupport::TestCase
     assert info.valid?
   end
 
-  test 'valid info no user' do
+  test 'invalid info no user' do
     info = TutorInfo.new
     refute info.valid?, 'info is valid without user'
     assert_not_nil info.errors[:user_id],
