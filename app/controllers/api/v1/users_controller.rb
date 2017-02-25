@@ -9,7 +9,8 @@ module Api
       end
 
       def show
-        respond_with User.find(params[:id])
+        user = User.select('*').left_joins(:tutor_info).find(params[:id])
+        json_response(user)
       end
 
       def create
