@@ -1,23 +1,11 @@
 module Api
   module V1
-    # REST endpoints for tutor info
+    # REST endpoints for /tutor_infos
     class TutorInfosController < ApplicationController
-      # GET /tutor_infos
-      def index
-        tutor_infos = TutorInfo.all
-        json_response(tutor_infos)
-      end
-
       # POST /tutor_infos
       def create
         tutor_info = TutorInfo.create!(tutor_info_params)
         json_response(tutor_info, :created)
-      end
-
-      # GET /tutor_infos/:id
-      def show
-        tutor_info = TutorInfo.find(params[:id])
-        json_response(tutor_info)
       end
 
       # PUT /tutor_infos/:id
@@ -37,8 +25,7 @@ module Api
       private
 
       def tutor_info_params
-        # whitelist params
-        params.permit(:title, :created_by)
+        params.permit(:description, :user_id)
       end
     end
   end

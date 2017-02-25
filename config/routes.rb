@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :users, only: [:index, :create, :show, :update, :destroy]
-      resources :tutor_infos, only: [:index, :create, :show, :update, :destroy]
+      resources :tutor_infos, only: [:create, :update, :destroy]
+      resources :courses, only: [:index, :create, :show, :update, :destroy]
+      resources :tutor_subjects, only: [:index, :create, :show]
     end
   end
 end

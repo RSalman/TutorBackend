@@ -5,3 +5,9 @@ AllCops:
     - 'config/**/*'
 EndOfLine:
   Enabled: false
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Enabled: false
