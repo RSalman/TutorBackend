@@ -4,7 +4,8 @@ module Api
     class TutorInfosController < ApplicationController
       # POST /tutor_infos
       def create
-        tutor_info = TutorInfo.create!(tutor_info_params)
+        tutor_info = TutorInfo.create(tutor_info_params)
+        return unless tutor_info.valid?
         json_response(tutor_info, :created)
       end
 

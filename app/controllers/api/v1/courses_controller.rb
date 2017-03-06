@@ -10,7 +10,8 @@ module Api
 
       # POST /courses
       def create
-        course = Course.create!(course_params)
+        course = Course.create(course_params)
+        return unless course.valid?
         json_response(course, :created)
       end
 

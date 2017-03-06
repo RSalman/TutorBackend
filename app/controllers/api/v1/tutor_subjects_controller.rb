@@ -4,13 +4,14 @@ module Api
     class TutorSubjectsController < ApplicationController
       # GET /tutor_subjects
       def index
-        courses = TutorSubject.tutors_by_prefix_and_code(params[:course_prefix], params[:course_code])
-        json_response(courses)
+        tutor_subjects = TutorSubject.tutors_by_prefix_and_code(params[:course_prefix], params[:course_code])
+        json_response(tutor_subjects)
       end
 
       # POST /tutor_subjects
       def create
-        tutor_subject = TutorSubject.create!(tutor_subject_params)
+        tutor_subject = TutorSubject.create(tutor_subject_params)
+        return unless tutor_subject.valid?
         json_response(tutor_subject, :created)
       end
 

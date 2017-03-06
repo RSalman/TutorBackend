@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :tutor_infos, only: [:create, :update, :destroy]
       resources :courses, only: [:index, :create, :show, :update, :destroy]
       resources :tutor_subjects, only: [:index, :create]
+      post :start_verify_phone, to: 'phone_verification#start'
     end
   end
 end
