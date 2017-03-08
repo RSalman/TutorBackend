@@ -11,6 +11,7 @@ module Api
       # POST /courses
       def create
         course = Course.create(course_params)
+        # TODO: Add error-handling
         return unless course.valid?
         json_response(course, :created)
       end
@@ -25,6 +26,8 @@ module Api
       def update
         course = Course.find(params[:id])
         course.update(course_params)
+        # TODO: Add error-handling
+        return unless course.valid?
         head :no_content
       end
 

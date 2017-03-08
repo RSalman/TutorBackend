@@ -2,10 +2,9 @@ module Api
   module V1
     # REST endpoints for Users.
     class UsersController < ApplicationController
-      respond_to :json
-
       def index
-        respond_with User.all
+        users = User.all
+        json_response(users)
       end
 
       def show
@@ -14,15 +13,23 @@ module Api
       end
 
       def create
-        respond_with User.create(params[:user])
+        user = User.create(params[:user])
+        # TODO: Add error-handling
+        return unless user.valid?
+        json_response(user, :created)
       end
 
       def update
-        respond_with User.update(params[:id], params[:user])
+        user = User.find(params[:id])
+        user.update(params[:user])
+        # TODO: Add error-handling
+        return unless user.valid?
+        head :nocontent
       end
 
       def destroy
-        respond_with User.destroy(params[:id])
+        User.destroy(params[:id])
+        head :nocontent
       end
     end
   end

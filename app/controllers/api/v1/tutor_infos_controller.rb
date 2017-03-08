@@ -5,6 +5,7 @@ module Api
       # POST /tutor_infos
       def create
         tutor_info = TutorInfo.create(tutor_info_params)
+        # TODO: Add error-handling
         return unless tutor_info.valid?
         json_response(tutor_info, :created)
       end
@@ -13,6 +14,8 @@ module Api
       def update
         tutor_info = TutorInfo.find(params[:id])
         tutor_info.update(tutor_info_params)
+        # TODO: Add error-handling
+        return unless tutor_info.valid?
         head :no_content
       end
 
