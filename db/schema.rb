@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309024314) do
+ActiveRecord::Schema.define(version: 20170309045102) do
 
   create_table "courses", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "course_prefix", null: false
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20170309024314) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.index ["user_id"], name: "index_tutor_infos_on_user_id", unique: true, using: :btree
+  end
+
+  create_table "tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_subject_id", null: false
+    t.bigint   "user_id"
+    t.datetime "matched_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["tutor_subject_id"], name: "index_tutor_requests_on_tutor_subject_id", using: :btree
+    t.index ["user_id", "created_at"], name: "idx_requests_user_created", using: :btree
   end
 
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -80,6 +90,8 @@ ActiveRecord::Schema.define(version: 20170309024314) do
   end
 
   add_foreign_key "tutor_infos", "users", on_delete: :cascade
+  add_foreign_key "tutor_requests", "tutor_subjects", on_delete: :cascade
+  add_foreign_key "tutor_requests", "users"
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "tutor_infos", on_delete: :cascade
 end
