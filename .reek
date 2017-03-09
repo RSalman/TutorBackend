@@ -3,3 +3,5 @@ UncommunicativeModuleName:
     - !ruby/regexp /V[0-9]/
 TooManyStatements:
   enabled: false
+DuplicateMethodCall:
+  enabled: false
