@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207225540) do
+ActiveRecord::Schema.define(version: 20170309024314) do
 
   create_table "courses", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "course_prefix", null: false
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 20170207225540) do
     t.index ["course_id"], name: "index_tutor_subjects_on_course_id", using: :btree
     t.index ["tutor_info_id", "course_id", "created_at"], name: "subject_index", unique: true, using: :btree
     t.index ["tutor_info_id"], name: "index_tutor_subjects_on_tutor_info_id", using: :btree
+  end
+
+  create_table "user_audits", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "user_id",      null: false
+    t.string   "phone_number", null: false
+    t.string   "action",       null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["phone_number"], name: "idx_audits_phone", using: :btree
+    t.index ["user_id", "created_at"], name: "idx_audits_user_created", using: :btree
   end
 
   create_table "users", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
