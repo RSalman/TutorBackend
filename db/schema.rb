@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207225540) do
+ActiveRecord::Schema.define(version: 20170309045102) do
 
   create_table "courses", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "course_prefix", null: false
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 20170207225540) do
     t.index ["user_id"], name: "index_tutor_infos_on_user_id", unique: true, using: :btree
   end
 
+  create_table "tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_subject_id", null: false
+    t.bigint   "user_id"
+    t.datetime "matched_at"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["tutor_subject_id"], name: "index_tutor_requests_on_tutor_subject_id", using: :btree
+    t.index ["user_id", "created_at"], name: "idx_requests_user_created", using: :btree
+  end
+
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_info_id",                           null: false
     t.bigint   "course_id",                               null: false
@@ -39,6 +49,16 @@ ActiveRecord::Schema.define(version: 20170207225540) do
     t.index ["course_id"], name: "index_tutor_subjects_on_course_id", using: :btree
     t.index ["tutor_info_id", "course_id", "created_at"], name: "subject_index", unique: true, using: :btree
     t.index ["tutor_info_id"], name: "index_tutor_subjects_on_tutor_info_id", using: :btree
+  end
+
+  create_table "user_audits", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "user_id",      null: false
+    t.string   "phone_number", null: false
+    t.string   "action",       null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["phone_number"], name: "idx_audits_phone", using: :btree
+    t.index ["user_id", "created_at"], name: "idx_audits_user_created", using: :btree
   end
 
   create_table "users", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -70,6 +90,8 @@ ActiveRecord::Schema.define(version: 20170207225540) do
   end
 
   add_foreign_key "tutor_infos", "users", on_delete: :cascade
+  add_foreign_key "tutor_requests", "tutor_subjects", on_delete: :cascade
+  add_foreign_key "tutor_requests", "users"
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "tutor_infos", on_delete: :cascade
 end
