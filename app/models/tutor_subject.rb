@@ -6,14 +6,16 @@ class TutorSubject < ApplicationRecord
   belongs_to :tutor_info
   belongs_to :course
 
-  def self.tutors_by_prefix_and_code(course_prefix, course_code)
+  def self.tutors_by_prefix_and_code(query)
     base = Course.select('*').joins(tutor_subjects: { tutor_info: :user })
-    if course_prefix && course_code
-      base.where(course_prefix: course_prefix, course_code: course_code)
-    elsif course_prefix
-      base.where(course_prefix: course_prefix)
-    elsif course_code
-      base.where(course_code: course_code)
+    query = '' unless query
+    /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ query
+    if prefix != '' && code != ''
+      base.where(course_prefix: prefix, course_code: code)
+    elsif prefix != ''
+      base.where(course_prefix: prefix)
+    elsif code != ''
+      base.where(course_code: code)
     else
       base
     end
