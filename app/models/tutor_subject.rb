@@ -5,6 +5,7 @@ class TutorSubject < ApplicationRecord
   validates :course, presence: true
   belongs_to :tutor_info
   belongs_to :course
+  has_many :tutor_requests
 
   def self.tutors_by_prefix_and_code(query)
     base = Course.select('*').joins(tutor_subjects: { tutor_info: :user })
