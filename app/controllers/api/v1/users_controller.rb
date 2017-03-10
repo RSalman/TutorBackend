@@ -13,10 +13,13 @@ module Api
       end
 
       def create
-        user = User.create(params[:user])
+        user = User.create(user_params)
         # TODO: Add error-handling
-        return unless user.valid?
-        json_response(user, :created)
+        if user.valid?
+          json_response(user, :created)
+        else
+          json_response(user.errors, :unprocessable_entity)
+        end
       end
 
       def update
@@ -30,6 +33,12 @@ module Api
       def destroy
         User.destroy(params[:id])
         head :nocontent
+      end
+
+      private
+
+      def user_params
+        params.require(:user).permit(:name, :email, :password)
       end
     end
   end
