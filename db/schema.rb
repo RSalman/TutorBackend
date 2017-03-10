@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.index ["course_prefix", "course_code"], name: "index_courses_on_course_prefix_and_course_code", unique: true, using: :btree
   end
 
+  create_table "tutee_reviews", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_request_id",               null: false
+    t.integer  "rating",           limit: 1,     null: false
+    t.text     "review",           limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["tutor_request_id"], name: "index_tutee_reviews_on_tutor_request_id", using: :btree
+  end
+
   create_table "tutor_infos", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "description",      limit: 65535
     t.integer  "agg_tutor_rating", limit: 4,     default: 0, null: false
@@ -37,6 +46,15 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.datetime "updated_at",       null: false
     t.index ["tutor_subject_id"], name: "index_tutor_requests_on_tutor_subject_id", using: :btree
     t.index ["user_id", "created_at"], name: "idx_requests_user_created", using: :btree
+  end
+
+  create_table "tutor_reviews", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_request_id",               null: false
+    t.integer  "rating",           limit: 1,     null: false
+    t.text     "review",           limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["tutor_request_id"], name: "index_tutor_reviews_on_tutor_request_id", using: :btree
   end
 
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -91,9 +109,11 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "tutee_reviews", "tutor_requests", on_delete: :cascade
   add_foreign_key "tutor_infos", "users", on_delete: :cascade
   add_foreign_key "tutor_requests", "tutor_subjects", on_delete: :cascade
   add_foreign_key "tutor_requests", "users"
+  add_foreign_key "tutor_reviews", "tutor_requests", on_delete: :cascade
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "tutor_infos", on_delete: :cascade
 end
