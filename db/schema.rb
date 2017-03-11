@@ -83,9 +83,9 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
-    t.string   "first_name",                                             null: false
-    t.string   "last_name",                                              null: false
-    t.string   "phone_number",                                           null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone_number"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
