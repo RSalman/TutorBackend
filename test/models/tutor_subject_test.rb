@@ -4,7 +4,7 @@ class TutorSubjectTest < ActiveSupport::TestCase
   def setup
     @course = Course.create(course_prefix: 'CSI', course_code: '2132',
                             course_name: 'Database I')
-    @user = User.new(name: 'Test')
+    @user = User.new(first_name: "tom", last_name: "brady", email: "tb@gmail.com", password: "securepass", phone_number: "6135265547")
     @info = TutorInfo.new
     @user.tutor_info = @info
   end
