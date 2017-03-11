@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TutorInfoTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(name: 'Test')
+    @user = User.new(first_name: "tom", last_name: "brady", email: "tb@gmail.com", password: "securepass", phone_number: "6135265547")
   end
 
   test 'valid info' do
