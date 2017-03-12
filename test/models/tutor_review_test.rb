@@ -4,7 +4,8 @@ class TutorReviewTest < ActiveSupport::TestCase
   def setup
     @course = Course.create(course_prefix: 'CSI', course_code: '2132',
                             course_name: 'Database I')
-    @user = User.create(name: 'Test')
+    @user = User.new(first_name: 'best', last_name: 'test', email: 'test@uottawa.ca', password: 'supersecurePassword',
+                     phone_number: '6135223652')
     @info = TutorInfo.new
     @user.tutor_info = @info
     @subject = @info.tutor_subjects.new(rate: 1, course_id: @course.id)
