@@ -14,14 +14,14 @@ class TutorSubjectTest < ActiveSupport::TestCase
     assert subject.valid?
   end
 
-  test 'valid subject no info' do
+  test 'invalid subject no info' do
     subject = TutorSubject.new(rate: 1, course_id: @course.id)
     refute subject.valid?, 'subject is valid without info'
     assert_not_nil subject.errors[:tutor_info_id],
                    'no validation error for tutor_info_id present'
   end
 
-  test 'valid subject no course' do
+  test 'invalid subject no course' do
     subject = @info.tutor_subjects.new(rate: 1)
     refute subject.valid?, 'subject is valid without course'
     assert_not_nil subject.errors[:course_id],
