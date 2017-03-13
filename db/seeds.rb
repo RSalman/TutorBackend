@@ -14,13 +14,11 @@ csi2132 = Course.create!({'course_prefix': 'CSI', 'course_code': '2132', 'course
 csi3131 = Course.create!({'course_prefix': 'CSI', 'course_code': '3131', 'course_name': 'Operating Systems'})
 csi4107 = Course.create!({'course_prefix': 'CSI', 'course_code': '4107', 'course_name': 'Information Retrieval'})
 
-sarmad_info = TutorInfo.create!({'user_id': sarmad.id, 'description': '4th yr software engineering student'})
-peng_info = TutorInfo.create!({'user_id': peng.id, 'description': '3rd/4th yr software engineering student'})
 
 subjects = TutorSubject.create!([
-    {'tutor_info_id': sarmad_info.id, 'course_id': csi2132.id, 'rate': 15},
-    {'tutor_info_id': sarmad_info.id, 'course_id': csi3131.id, 'rate': 20},
-    {'tutor_info_id': peng_info.id, 'course_id': csi2132.id, 'rate': 17}])
+    {'user_id': sarmad.id, 'course_id': csi2132.id, 'rate': 15},
+    {'user_id': sarmad.id, 'course_id': csi3131.id, 'rate': 20},
+    {'user_id': peng.id, 'course_id': csi2132.id, 'rate': 17}])
 
 pending_requests = PendingTutorRequest.create!([
     {'tutor_subject_id': subjects[0].id, 'student_id': peng.id, 'tutor_id': sarmad.id},

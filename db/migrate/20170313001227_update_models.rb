@@ -12,6 +12,6 @@ class UpdateModels < ActiveRecord::Migration[5.0]
     add_column :tutor_subjects, :user_id, :bigint
     remove_index :tutor_subjects, name: :subject_index
     add_index :tutor_subjects, ["user_id", "created_at"], name: "idx_subjects_user_created"
-    add_foreign_key :tutor_subjects, :users, on_delete: :nullify
+    add_foreign_key :tutor_subjects, :users
   end
 end
