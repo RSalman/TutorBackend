@@ -19,7 +19,7 @@ module Api
       private
 
       def tutor_subject_params
-        params.permit(:tutor_info_id, :course_id, :rate, :deleted)
+        params.permit(:tutor_info_id, :course_id, :rate)
       end
     end
   end

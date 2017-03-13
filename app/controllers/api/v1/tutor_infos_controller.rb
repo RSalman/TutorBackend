@@ -1,8 +1,7 @@
 module Api
   module V1
-    # REST endpoints for /tutor_infos
-    class TutorInfosController < ApplicationController
-      # POST /tutor_infos
+    # REST endpoints for /tutor_info
+    class TutorInfoController < ApplicationController
       def create
         tutor_info = TutorInfo.create(tutor_info_params)
         # TODO: Add error-handling
@@ -10,7 +9,6 @@ module Api
         json_response(tutor_info, :created)
       end
 
-      # PUT /tutor_infos/:id
       def update
         tutor_info = TutorInfo.find(params[:id])
         tutor_info.update(tutor_info_params)
@@ -19,7 +17,6 @@ module Api
         head :no_content
       end
 
-      # DELETE /tutor_infos/:id
       def destroy
         tutor_info = TutorInfo.find(params[:id])
         tutor_info.destroy

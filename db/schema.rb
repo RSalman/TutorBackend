@@ -54,15 +54,14 @@ ActiveRecord::Schema.define(version: 20170313220915) do
   end
 
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint   "tutor_info_id",                           null: false
-    t.bigint   "course_id",                               null: false
-    t.integer  "rate",          limit: 4,                 null: false
-    t.boolean  "deleted",                 default: false, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.bigint   "course_id",                            null: false
+    t.integer  "rate",       limit: 4,                 null: false
+    t.boolean  "deleted",              default: false, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.bigint   "user_id",                              null: false
     t.index ["course_id"], name: "index_tutor_subjects_on_course_id", using: :btree
-    t.index ["tutor_info_id", "course_id", "created_at"], name: "subject_index", unique: true, using: :btree
-    t.index ["tutor_info_id"], name: "index_tutor_subjects_on_tutor_info_id", using: :btree
+    t.index ["user_id", "created_at"], name: "idx_subjects_user_created", using: :btree
   end
 
   create_table "user_audits", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -115,5 +114,4 @@ ActiveRecord::Schema.define(version: 20170313220915) do
   add_foreign_key "pending_tutor_requests", "users", column: "tutor_id", on_delete: :cascade
   add_foreign_key "tutor_infos", "users", on_delete: :cascade
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
-  add_foreign_key "tutor_subjects", "tutor_infos", on_delete: :cascade
 end
