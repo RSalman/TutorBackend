@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(version: 20170312231723) do
     t.bigint   "tutor_subject_id", null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.bigint   "student_id"
-    t.bigint   "tutor_id"
+    t.bigint   "student_id",       null: false
+    t.bigint   "tutor_id",         null: false
     t.index ["created_at"], name: "idx_requests_user_created", using: :btree
     t.index ["student_id"], name: "index_pending_tutor_requests_on_student_id", using: :btree
     t.index ["tutor_id"], name: "index_pending_tutor_requests_on_tutor_id", using: :btree
-    t.index ["tutor_subject_id", "student_id", "tutor_id"], name: "idx_pending_tutor_request", unique: true, using: :btree
+    t.index ["tutor_subject_id", "student_id"], name: "idx_pending_tutor_request", unique: true, using: :btree
     t.index ["tutor_subject_id"], name: "index_pending_tutor_requests_on_tutor_subject_id", using: :btree
   end
 
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(version: 20170312231723) do
   end
 
   add_foreign_key "accepted_tutor_requests", "tutor_subjects", on_delete: :cascade
-  add_foreign_key "accepted_tutor_requests", "users", column: "student_id"
-  add_foreign_key "accepted_tutor_requests", "users", column: "tutor_id"
+  add_foreign_key "accepted_tutor_requests", "users", column: "student_id", on_delete: :nullify
+  add_foreign_key "accepted_tutor_requests", "users", column: "tutor_id", on_delete: :nullify
   add_foreign_key "pending_tutor_requests", "tutor_subjects", on_delete: :cascade
   add_foreign_key "pending_tutor_requests", "users", column: "student_id"
   add_foreign_key "pending_tutor_requests", "users", column: "tutor_id"

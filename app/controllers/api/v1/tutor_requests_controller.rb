@@ -1,20 +1,22 @@
 module Api
   module V1
-    # REST endpoints for /tutor_requests
+    # This defines the REST implementations for the controllers of the two tutor request models:
+    # AcceptedTutorRequest and PendingTutorRequest. All requests for tutors and specific tutor subjects
+    # are made from here.
     class TutorRequestsController < ApplicationController
-      # GET /accepted_tutor_requests
+      # Returns all accepted tutor requests given a tutor_id
       def accepted
         tutor_requests = AcceptedTutorRequest.where(tutor_id: params[:tutor_id])
         json_response(tutor_requests.all)
       end
 
-      # GET /pending_tutor_requests
+      # Returns all pending tutor requests given a tutor_id
       def pending
         tutor_requests = PendingTutorRequest.where(tutor_id: params[:tutor_id])
         json_response(tutor_requests)
       end
 
-      # POST /tutor_requests
+      # Requests a tutor given a tutor_subject_id, student_id and tutor_id
       def create
         pending_request = PendingTutorRequest.create(tutor_request_params)
         # TODO: add push notification here
@@ -25,15 +27,17 @@ module Api
         end
       end
 
-      # PUT /tutor_requests
+      # Updates tutor request status from pending to accepted
       def update
         # TODO: add push notification here
-        PendingTutorRequest.destroy(params[:id])
-        accepted_request = AcceptedTutorRequest.create(tutor_request_params)
+        pending_request = PendingTutorRequest.find(params[:id])
+        accepted_request = AcceptedTutorRequest
+                           .create(pending_request.as_json(only: [:tutor_subject_id, :student_id, :tutor_id]))
+        pending_request.destroy
         json_response(accepted_request, :ok)
       end
 
-      # DELETE /tutor_requests
+      # Removes a pending tutor request
       def destroy
         pending_request = PendingTutorRequest.find(params[:id])
         pending_request.destroy
