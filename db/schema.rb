@@ -10,13 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310235532) do
+ActiveRecord::Schema.define(version: 20170312231723) do
+
+  create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_subject_id", null: false
+    t.bigint   "student_id"
+    t.bigint   "tutor_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["student_id"], name: "index_accepted_tutor_requests_on_student_id", using: :btree
+    t.index ["tutor_id"], name: "index_accepted_tutor_requests_on_tutor_id", using: :btree
+    t.index ["tutor_subject_id"], name: "index_accepted_tutor_requests_on_tutor_subject_id", using: :btree
+  end
 
   create_table "courses", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "course_prefix", null: false
     t.string "course_code",   null: false
     t.string "course_name",   null: false
     t.index ["course_prefix", "course_code"], name: "index_courses_on_course_prefix_and_course_code", unique: true, using: :btree
+  end
+
+  create_table "pending_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint   "tutor_subject_id", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.bigint   "student_id"
+    t.bigint   "tutor_id"
+    t.index ["created_at"], name: "idx_requests_user_created", using: :btree
+    t.index ["student_id"], name: "index_pending_tutor_requests_on_student_id", using: :btree
+    t.index ["tutor_id"], name: "index_pending_tutor_requests_on_tutor_id", using: :btree
+    t.index ["tutor_subject_id", "student_id", "tutor_id"], name: "idx_pending_tutor_request", unique: true, using: :btree
+    t.index ["tutor_subject_id"], name: "index_pending_tutor_requests_on_tutor_subject_id", using: :btree
   end
 
   create_table "tutor_infos", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -27,16 +51,6 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.index ["user_id"], name: "index_tutor_infos_on_user_id", unique: true, using: :btree
-  end
-
-  create_table "tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint   "tutor_subject_id", null: false
-    t.bigint   "user_id"
-    t.datetime "matched_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["tutor_subject_id"], name: "index_tutor_requests_on_tutor_subject_id", using: :btree
-    t.index ["user_id", "created_at"], name: "idx_requests_user_created", using: :btree
   end
 
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -91,9 +105,13 @@ ActiveRecord::Schema.define(version: 20170310235532) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "accepted_tutor_requests", "tutor_subjects", on_delete: :cascade
+  add_foreign_key "accepted_tutor_requests", "users", column: "student_id"
+  add_foreign_key "accepted_tutor_requests", "users", column: "tutor_id"
+  add_foreign_key "pending_tutor_requests", "tutor_subjects", on_delete: :cascade
+  add_foreign_key "pending_tutor_requests", "users", column: "student_id"
+  add_foreign_key "pending_tutor_requests", "users", column: "tutor_id"
   add_foreign_key "tutor_infos", "users", on_delete: :cascade
-  add_foreign_key "tutor_requests", "tutor_subjects", on_delete: :cascade
-  add_foreign_key "tutor_requests", "users"
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "tutor_infos", on_delete: :cascade
 end
