@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable
   include DeviseTokenAuth::Concerns::User
-  has_one :tutor_info
+  has_many :tutor_subjects
 end

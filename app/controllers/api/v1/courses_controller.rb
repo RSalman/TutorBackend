@@ -2,13 +2,12 @@ module Api
   module V1
     # REST endpoints for /courses
     class CoursesController < ApplicationController
-      # GET /courses
       def index
         courses = Course.all
         json_response(courses)
       end
 
-      # POST /courses
+      # Not for users
       def create
         course = Course.create(course_params)
         # TODO: Add error-handling
@@ -16,13 +15,12 @@ module Api
         json_response(course, :created)
       end
 
-      # GET /courses/:id
       def show
         course = Course.find(params[:id])
         json_response(course)
       end
 
-      # PUT /courses/:id
+      # Not for users
       def update
         course = Course.find(params[:id])
         course.update(course_params)
@@ -31,9 +29,10 @@ module Api
         head :no_content
       end
 
-      # DELETE /courses/:id
+      # Not for users
       def destroy
-        Course.destroy(params[:id])
+        course = Course.find(params[:id])
+        course.update_attribute(:hidden, true)
         head :no_content
       end
 

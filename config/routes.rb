@@ -3,9 +3,16 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :users, only: [:index, :create, :show, :update, :destroy]
-      resources :tutor_infos, only: [:create, :update, :destroy]
+
+      # Allows users to create, edit, or delete their tutor profiles
+      # resources :tutor_infos, only: [:create, :update, :destroy]
+
+      # Create, update, and destroy are not for user use
       resources :courses, only: [:index, :create, :show, :update, :destroy]
+
+      # Allows tutors to indicate which subjects they can tutor
       resources :tutor_subjects, only: [:index, :create]
+
       resources :tutor_requests, only: [:create, :update, :destroy]
       get :accepted_tutor_requests, to: 'tutor_requests#accepted'
       get :pending_tutor_requests, to: 'tutor_requests#pending'
