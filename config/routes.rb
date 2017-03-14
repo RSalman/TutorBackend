@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -12,6 +11,7 @@ Rails.application.routes.draw do
       get :pending_tutor_requests, to: 'tutor_requests#pending'
       post :start_verify_phone, to: 'phone_verification#start'
       post :app_token, to: 'notifications#set_app_token'
+      post :generate_notification, to: 'notifications#generate_notification'
     end
   end
 end
