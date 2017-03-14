@@ -11,14 +11,14 @@ class RequestChanges < ActiveRecord::Migration[5.0]
     remove_index :accepted_tutor_requests, name: "index_accepted_tutor_requests_on_student_id"
     remove_index :accepted_tutor_requests, name: "index_accepted_tutor_requests_on_tutor_id"
     add_column :accepted_tutor_requests, :tutor_rating, :integer, limit: 1
-    add_column :accepted_tutor_requests, :tutor_review, :string
+    add_column :accepted_tutor_requests, :tutor_review, :text
     add_column :accepted_tutor_requests, :student_rating, :integer, limit: 1
-    add_column :accepted_tutor_requests, :student_review, :string
+    add_column :accepted_tutor_requests, :student_review, :text
     add_column :users, :agg_user_rating, :integer, null: false, default: 0
     add_column :users, :num_user_rating, :integer, null: false, default: 0
     add_column :users, :agg_tutor_rating, :integer, null: false, default: 0
     add_column :users, :num_tutor_rating, :integer, null: false, default: 0
     add_column :users, :tutor_hidden, :boolean, default: true, null: false
-    add_column :users, :tutor_description, :string
+    add_column :users, :tutor_description, :text
   end
 end
