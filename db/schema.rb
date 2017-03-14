@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312231723) do
+ActiveRecord::Schema.define(version: 20170313220915) do
 
   create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_subject_id", null: false
@@ -100,6 +100,8 @@ ActiveRecord::Schema.define(version: 20170312231723) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_number"
+    t.string   "app_token"
+    t.string   "app_token_platform"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
