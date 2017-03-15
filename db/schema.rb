@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314171937) do
+ActiveRecord::Schema.define(version: 20170315052120) do
 
   create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_subject_id",           null: false
@@ -115,4 +115,28 @@ ActiveRecord::Schema.define(version: 20170314171937) do
   add_foreign_key "pending_tutor_requests", "users", column: "tutor_id"
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "users"
+  create_trigger("accepted_tutor_requests_after_update_of_tutor_rating_row_tr", :generated => true, :compatibility => 1).
+      on("accepted_tutor_requests").
+      after(:update).
+      of(:tutor_rating) do
+    <<-SQL_ACTIONS
+UPDATE Users SET
+     agg_tutor_rating = agg_tutor_rating + NEW.tutor_rating,
+     num_tutor_rating = num_tutor_rating + 1
+     WHERE id = NEW.tutor_id;
+    SQL_ACTIONS
+  end
+
+  create_trigger("accepted_tutor_requests_after_update_of_student_rating_row_tr", :generated => true, :compatibility => 1).
+      on("accepted_tutor_requests").
+      after(:update).
+      of(:student_rating) do
+    <<-SQL_ACTIONS
+UPDATE Users SET
+     agg_user_rating = agg_user_rating + NEW.student_rating,
+     num_user_rating = num_user_rating + 1
+     WHERE id = NEW.student_id;
+    SQL_ACTIONS
+  end
+
 end
