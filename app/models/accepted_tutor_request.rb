@@ -8,19 +8,17 @@ class AcceptedTutorRequest < ApplicationRecord
   belongs_to :student, class_name: 'User'
 
   # These triggers assume ratings are only given once and cannot be updated
-  trigger.after(:update).of(:tutor_rating) do
+  trigger.after(:update) do
     '
-    UPDATE Users SET
-    agg_tutor_rating = agg_tutor_rating + NEW.tutor_rating,
-    num_tutor_rating = num_tutor_rating + 1
-    WHERE id = NEW.tutor_id;'
-  end
-
-  trigger.after(:update).of(:student_rating) do
-    '
-    UPDATE Users SET
-    agg_user_rating = agg_user_rating + NEW.student_rating,
-    num_user_rating = num_user_rating + 1
-    WHERE id = NEW.student_id;'
+    IF OLD.tutor_rating IS NULL AND NEW.tutor_rating IS NOT NULL THEN
+      UPDATE users
+      SET agg_tutor_rating = agg_tutor_rating + NEW.tutor_rating, num_tutor_rating = num_tutor_rating + 1
+      WHERE id = NEW.tutor_id;
+    END IF;
+    IF OLD.student_rating IS NULL AND NEW.student_rating IS NOT NULL THEN
+      UPDATE users
+      SET agg_user_rating = agg_user_rating + NEW.student_rating, num_user_rating = num_user_rating + 1
+      WHERE id = NEW.student_id;
+    END IF;'
   end
 end
