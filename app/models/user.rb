@@ -20,13 +20,25 @@ class User < ApplicationRecord
     IF OLD.user_hidden_at IS NULL AND NEW.user_hidden_at IS NOT NULL THEN
       INSERT INTO user_audits (user_id, phone_number, action, created_at) VALUES (NEW.id, NEW.phone_number, "hidden",
         CURRENT_TIMESTAMP);
-
+      UPDATE tutor_subjects AS x
+      INNER JOIN (
+        SELECT course_id, max(cr_at) AS time FROM tutor_subjects
+        WHERE user_id = NEW.id GROUP BY course_id) AS y
+      ON x.course_id = y.course_id AND x.cr_at = y.time
+      SET deleted_at = CURRENT_TIMESTAMP
+      WHERE user_id = NEW.id AND deleted_at IS NULL;
     ELSEIF OLD.user_hidden_at IS NOT NULL and NEW.user_hidden_at IS NULL THEN
       INSERT INTO user_audits (user_id, phone_number, action, created_at) VALUES (NEW.id, NEW.phone_number, "unhidden",
         CURRENT_TIMESTAMP);
     END IF;
     IF OLD.tutor_hidden = FALSE AND NEW.tutor_hidden = TRUE THEN
-
+      UPDATE tutor_subjects AS x
+      INNER JOIN (
+        SELECT course_id, max(cr_at) AS time FROM tutor_subjects
+        WHERE user_id = NEW.id GROUP BY course_id) AS y
+      ON x.course_id = y.course_id AND x.cr_at = y.time
+      SET deleted_at = CURRENT_TIMESTAMP
+      WHERE user_id = NEW.id AND deleted_at IS NULL;
     END IF;'
   end
 
