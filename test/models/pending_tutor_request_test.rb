@@ -30,4 +30,15 @@ class PendingTutorRequestTest < ActiveSupport::TestCase
     refute request.valid?, 'request is valid with no tutor'
     assert_not_empty request.errors[:tutor], 'no validation error for no tutor'
   end
+
+  test 'invalid non-unique subject and student' do
+    request = PendingTutorRequest.create!(student_id: @user.id, tutor_id: @user.id, tutor_subject_id: @subject.id)
+    assert request.valid?
+    begin
+      PendingTutorRequest.create(student_id: @user.id, tutor_id: @user.id, tutor_subject_id: @subject.id)
+      assert false
+    rescue
+      assert true
+    end
+  end
 end
