@@ -6,9 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-sarmad = User.create!({'first_name': 'Sarmad', 'last_name': 'Hashmi', 'password': 'password', 'email': 'sarmad@test.com', 'uid': '12345'})
-peng = User.create!({'first_name': 'Peng', 'last_name': 'Liu', 'password': 'password','email': 'peng@test.com', 'uid': '12346'})
-muraad = User.create!({'first_name': 'Muraad', 'last_name': 'Hared', 'password': 'password', 'email': 'muraad@test.com', 'uid': '12347'})
+sarmad = User.create!({'first_name': 'Sarmad', 'last_name': 'Hashmi', 'password': 'password',
+                       'email': 'sarmad@test.com', 'uid': '12345', 'phone_number': '6131234567'})
+peng = User.create!({'first_name': 'Peng', 'last_name': 'Liu', 'password': 'password','email': 'peng@test.com',
+                     'uid': '12346', 'phone_number': '6131234568'})
+muraad = User.create!({'first_name': 'Muraad', 'last_name': 'Hared', 'password': 'password', 'email': 'muraad@test.com',
+                       'uid': '12347', 'phone_number': '6131234569'})
 
 csi2132 = Course.create!({'course_prefix': 'CSI', 'course_code': '2132', 'course_name': 'Database I'})
 csi3131 = Course.create!({'course_prefix': 'CSI', 'course_code': '3131', 'course_name': 'Operating Systems'})
