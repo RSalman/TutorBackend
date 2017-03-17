@@ -7,7 +7,8 @@ class AcceptedTutorRequest < ApplicationRecord
   belongs_to :tutor, class_name: 'User'
   belongs_to :student, class_name: 'User'
 
-  # These triggers assume ratings are only given once and cannot be updated
+  # This trigger assumes ratings are only given once and cannot be updated
+  # Updates the User/Tutor's aggregate rating whenever a rating is left
   trigger.after(:update) do
     '
     IF OLD.tutor_rating IS NULL AND NEW.tutor_rating IS NOT NULL THEN

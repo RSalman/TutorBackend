@@ -5,6 +5,8 @@ class Course < ApplicationRecord
   validates :course_name, presence: true
   has_many :tutor_subjects
 
+  # When a Course is hidden, automatically deletes all TutorSubjects referencing it by updating the most recent
+  # non-deleted TutorSubjects' deleted_at fields to CURRENT_TIMESTAMP
   trigger.after(:update) do
     '
     IF OLD.hidden = FALSE AND NEW.hidden = TRUE THEN
