@@ -9,10 +9,14 @@ module Api
 
       # Not for users
       def create
-        course = Course.create(course_params)
-        # TODO: Add error-handling
-        return unless course.valid?
-        json_response(course, :created)
+        course = Course.create!(course_params)
+        if course.valid?
+          json_response(course, :created)
+        else
+          json_response(course.errors, :unprocessable_entity)
+        end
+      rescue
+        json_response({}, :conflict)
       end
 
       def show
@@ -24,15 +28,19 @@ module Api
       def update
         course = Course.find(params[:id])
         course.update(course_params)
-        # TODO: Add error-handling
-        return unless course.valid?
-        head :no_content
+        if tutor_subject.valid?
+          json_response(course, :created)
+        else
+          json_response(course.errors, :unprocessable_entity)
+        end
+      rescue
+        json_response({}, :conflict)
       end
 
       # Not for users
       def destroy
         course = Course.find(params[:id])
-        course.update_attribute(:hidden, true)
+        course.update(hidden: nil)
         head :no_content
       end
 

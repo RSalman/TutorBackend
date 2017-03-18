@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316051900) do
+ActiveRecord::Schema.define(version: 20170317175435) do
 
   create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_subject_id",                                                null: false
@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(version: 20170316051900) do
     t.string  "course_prefix", limit: 10,                 null: false
     t.string  "course_code",   limit: 10,                 null: false
     t.string  "course_name",                              null: false
-    t.boolean "hidden",                   default: false, null: false
+    t.boolean "hidden",                   default: false
     t.index ["course_code"], name: "idx_courses_code", using: :btree
-    t.index ["course_prefix", "course_code"], name: "idx_courses_prefix_code_unique_not_hidden", unique: true, using: :btree
+    t.index ["course_prefix", "course_code", "hidden"], name: "idx_courses_prefix_code_hidden_unique", unique: true, using: :btree
+    t.index ["course_prefix", "course_code"], name: "idx_courses_prefix_code", using: :btree
   end
 
   create_table "pending_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -46,7 +47,6 @@ ActiveRecord::Schema.define(version: 20170316051900) do
   create_table "tutor_subjects", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "course_id",                                                 null: false
     t.integer  "rate",       limit: 4,                                      null: false
-    t.datetime "updated_at",                                                null: false
     t.bigint   "user_id"
     t.datetime "deleted_at"
     t.datetime "cr_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
