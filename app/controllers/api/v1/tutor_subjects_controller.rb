@@ -4,7 +4,7 @@ module Api
     class TutorSubjectsController < ApplicationController
       # GET /tutor_subjects
       def index
-        tutor_subjects = TutorSubject.tutors_by_prefix_and_code(params[:q])
+        tutor_subjects = TutorSubject.tutors_by_prefix_and_code(params[:q], params[:last_id])
         json_response(tutor_subjects)
       end
 
@@ -19,7 +19,7 @@ module Api
       private
 
       def tutor_subject_params
-        params.permit(:tutor_info_id, :course_id, :rate)
+        params.permit(:tutor_info_id, :course_id, :rate, :last_id)
       end
     end
   end
