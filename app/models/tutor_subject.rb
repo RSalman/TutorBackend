@@ -28,4 +28,13 @@ class TutorSubject < ApplicationRecord
     base = base.where(course_code: code) unless code.empty?
     base
   end
+
+  # When a new TutorSubject is created, automatically deletes all old TutorSubjects referencing the same course_id by
+  # the same user_id by updating their deleted_at fields to CURRENT_TIMESTAMP
+  trigger.before(:insert) do
+    '
+    UPDATE tutor_subjects
+    SET deleted_at = CURRENT_TIMESTAMP
+    WHERE course_id = NEW.course_id AND user_id = NEW.user_id AND deleted_at IS NULL;'
+  end
 end

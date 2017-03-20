@@ -16,7 +16,7 @@ module Api
           json_response(course.errors, :unprocessable_entity)
         end
       rescue
-        json_response({}, :conflict)
+        head :conflict
       end
 
       def show
@@ -28,19 +28,18 @@ module Api
       def update
         course = Course.find(params[:id])
         course.update(course_params)
-        if tutor_subject.valid?
+        if course.valid?
           json_response(course, :created)
         else
           json_response(course.errors, :unprocessable_entity)
         end
       rescue
-        json_response({}, :conflict)
+        head :conflict
       end
 
       # Not for users
       def destroy
-        course = Course.find(params[:id])
-        course.update(hidden: nil)
+        Course.update(params[:id], hidden: nil)
         head :no_content
       end
 

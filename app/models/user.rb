@@ -17,18 +17,14 @@ class User < ApplicationRecord
   end
 
   # Creates an audit record whenever a User hides or unhides
-  # When a User or their tutor status is hidden, automatically deletes all TutorSubjects referencing it by updating the
-  # most recent non-deleted TutorSubjects' deleted_at fields to CURRENT_TIMESTAMP
+  # When a User or their tutor status is hidden, automatically deletes all TutorSubjects referencing it by updating
+  # their deleted_at fields to CURRENT_TIMESTAMP
   trigger.after(:update) do
     '
     IF OLD.user_hidden_at IS NULL AND NEW.user_hidden_at IS NOT NULL THEN
       INSERT INTO user_audits (user_id, phone_number, action, created_at) VALUES (NEW.id, NEW.phone_number, "hidden",
         CURRENT_TIMESTAMP);
-      UPDATE tutor_subjects AS x
-      INNER JOIN (
-        SELECT course_id, max(cr_at) AS time FROM tutor_subjects
-        WHERE user_id = NEW.id GROUP BY course_id) AS y
-      ON x.course_id = y.course_id AND x.cr_at = y.time
+      UPDATE tutor_subjects
       SET deleted_at = CURRENT_TIMESTAMP
       WHERE user_id = NEW.id AND deleted_at IS NULL;
     ELSEIF OLD.user_hidden_at IS NOT NULL and NEW.user_hidden_at IS NULL THEN
@@ -36,11 +32,7 @@ class User < ApplicationRecord
         CURRENT_TIMESTAMP);
     END IF;
     IF OLD.tutor_hidden = FALSE AND NEW.tutor_hidden = TRUE THEN
-      UPDATE tutor_subjects AS x
-      INNER JOIN (
-        SELECT course_id, max(cr_at) AS time FROM tutor_subjects
-        WHERE user_id = NEW.id GROUP BY course_id) AS y
-      ON x.course_id = y.course_id AND x.cr_at = y.time
+      UPDATE tutor_subjects
       SET deleted_at = CURRENT_TIMESTAMP
       WHERE user_id = NEW.id AND deleted_at IS NULL;
     END IF;'

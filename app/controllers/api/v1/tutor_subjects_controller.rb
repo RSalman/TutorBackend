@@ -2,18 +2,28 @@ module Api
   module V1
     # REST endpoints for /tutor_subjects
     class TutorSubjectsController < ApplicationController
-      # GET /tutor_subjects
+      # Allows users to query for TutorSubjects
       def index
         tutor_subjects = TutorSubject.tutors_by_prefix_and_code(params[:q], params[:last_id])
         json_response(tutor_subjects)
       end
 
-      # POST /tutor_subjects
+      # Allows tutors to indicate which courses they can tutor and for how much
       def create
         tutor_subject = TutorSubject.create(tutor_subject_params)
-        # TODO: Add error-handling
-        return unless tutor_subject.valid?
-        json_response(tutor_subject, :created)
+        if tutor_subject.valid?
+          json_response(tutor_subject, :created)
+        else
+          json_response(tutor_subject.errors, :unprocessable_entity)
+        end
+      end
+
+      # Tutors cancel previous TutorSubjects by timestamping deleted_at
+      def destroy
+        sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id =
+               #{ActiveRecord::Base.sanitize(params[:id])}"
+        ActiveRecord::Base.connection.execute(sql)
+        head :no_content
       end
 
       private
