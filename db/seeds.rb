@@ -5,29 +5,60 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+#
 
-sarmad = User.create!({'first_name': 'Sarmad', 'last_name': 'Hashmi', 'password': 'password',
-                       'email': 'sarmad@test.com', 'uid': '12345', 'phone_number': '6131234567'})
-peng = User.create!({'first_name': 'Peng', 'last_name': 'Liu', 'password': 'password','email': 'peng@test.com',
-                     'uid': '12346', 'phone_number': '6131234568'})
-muraad = User.create!({'first_name': 'Muraad', 'last_name': 'Hared', 'password': 'password', 'email': 'muraad@test.com',
-                       'uid': '12347', 'phone_number': '6131234569'})
+encrypted_password = User.new(password: 'password').encrypted_password
+User.bulk_insert(:first_name, :last_name, :phone_number, :encrypted_password, :email, :uid,
+                 :agg_tutor_rating, :agg_user_rating, :num_tutor_rating, :num_user_rating) do |worker|
+  1000.times do |i|
+    worker.add(first_name: Faker::Name.first_name,
+               last_name: Faker::Name.last_name,
+               agg_tutor_rating: Faker::Number.between(10, 50),
+               num_tutor_rating: 10,
+               agg_user_rating: Faker::Number.between(10, 50),
+               num_user_rating: 10,
+               phone_number: 100000 + i,
+               encrypted_password: encrypted_password,
+               uid: "testemail#{i}@test.com",
+               email: "testemail#{i}@test.com")
+  end
+end
 
-csi2132 = Course.create!({'course_prefix': 'CSI', 'course_code': '2132', 'course_name': 'Database I'})
-csi3131 = Course.create!({'course_prefix': 'CSI', 'course_code': '3131', 'course_name': 'Operating Systems'})
-csi4107 = Course.create!({'course_prefix': 'CSI', 'course_code': '4107', 'course_name': 'Information Retrieval'})
+Course.bulk_insert do |worker|
+  worker.add(course_prefix: 'CSI', course_code: '2132', course_name: 'Database I')
+  worker.add(course_prefix: 'CSI', course_code: '3131', course_name: 'Operating Systems')
+  worker.add(course_prefix: 'CSI', course_code: '4107', course_name: 'Information Retrieval')
+  worker.add(course_prefix: 'SEG', course_code: '4910', course_name: 'Capstone (Part 1)')
+  worker.add(course_prefix: 'SEG', course_code: '4911', course_name: 'Capstone (Part 2)')
+  worker.add(course_prefix: 'CEG', course_code: '3185', course_name: 'Data communications')
+end
 
+user_ids = User.pluck(:id)
+course_ids = Course.pluck(:id)
 
-subjects = TutorSubject.create!([
-    {'user_id': sarmad.id, 'course_id': csi2132.id, 'rate': 15},
-    {'user_id': sarmad.id, 'course_id': csi3131.id, 'rate': 20},
-    {'user_id': peng.id, 'course_id': csi2132.id, 'rate': 17}])
+TutorSubject.bulk_insert(:course_id, :user_id, :rate, ignore: true) do |worker|
+  1000.times do |i|
+    worker.add(course_id: course_ids.sample,
+               user_id: user_ids.sample,
+               rate: rand(100) + 1)
+  end
+end
 
-pending_requests = PendingTutorRequest.create!([
-    {'tutor_subject_id': subjects[0].id, 'student_id': peng.id, 'tutor_id': sarmad.id},
-    {'tutor_subject_id': subjects[1].id, 'student_id': peng.id, 'tutor_id': sarmad.id}
-])
+tutor_subject_ids = TutorSubject.pluck(:id)
+tutor_ids = TutorSubject.distinct.pluck(:user_id)
 
-accepted_requests = AcceptedTutorRequest.create!([
-    {'tutor_subject_id': subjects[2].id, 'student_id': sarmad.id, 'tutor_id': peng.id}
-])
+PendingTutorRequest.bulk_insert(:tutor_subject_id, :student_id, :tutor_id, ignore: true) do |worker|
+  200.times do
+    worker.add(tutor_subject_id: tutor_subject_ids.sample,
+               student_id: user_ids.sample,
+               tutor_id: tutor_ids.sample)
+  end
+end
+
+AcceptedTutorRequest.bulk_insert(:tutor_subject_id, :student_id, :tutor_id, ignore: true) do |worker|
+  200.times do
+    worker.add(tutor_subject_id: tutor_subject_ids.sample,
+               student_id: user_ids.sample,
+               tutor_id: tutor_ids.sample)
+  end
+end

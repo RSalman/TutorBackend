@@ -40,10 +40,14 @@ gem 'rails-bigint-pk', git: 'https://github.com/Shopify/rails-bigint-pk.git'
 
 gem 'authy'
 
+gem 'bulk_insert'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
   # debugger console
   gem 'byebug', platform: :mri
+
+  gem 'faker'
 end
 
 group :test do

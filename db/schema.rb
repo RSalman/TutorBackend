@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 20170316051900) do
     t.string  "course_name",                              null: false
     t.boolean "hidden",                   default: false, null: false
     t.index ["course_code"], name: "idx_courses_code", using: :btree
-    t.index ["course_prefix", "course_code"], name: "idx_courses_prefix_code", using: :btree
     t.index ["course_prefix", "course_code"], name: "idx_courses_prefix_code_unique_not_hidden", unique: true, using: :btree
   end
 
