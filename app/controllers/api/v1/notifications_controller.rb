@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/AbcSize
 require_dependency 'Notifications'
 module Api
   module V1
@@ -14,7 +15,14 @@ module Api
 
       # Temp Endpoint to generate notifications
       def generate_notification
-        Notifications.send_notification(params[:id], params[:notification_title], params[:notification_body])
+        notifcation_params = { 'user_id' => params[:id],
+                               'title' => params[:notification_title],
+                               'body' => params[:notification_body],
+                               'icon' => params[:notification_icon],
+                               'color' =>  params[:notification_color],
+                               'type' =>   params[:notification_type],
+                               'associated_data' => params[:associated_data] }
+        Notifications.send_notification(notifcation_params)
       end
     end
   end
