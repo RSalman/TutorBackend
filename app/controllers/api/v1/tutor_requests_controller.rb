@@ -41,7 +41,28 @@ module Api
       def destroy
         PendingTutorRequest.destroy(params[:id])
         # TODO: add push notification here
+<<<<<<< HEAD
         head :no_content
+=======
+        pending_request.destroy
+        head :ok
+      end
+
+      # Allows the student to rate the tutor
+      def tutor_review
+        AcceptedTutorRequest.where('tutor_rating IS NULL')
+                            .where('id = ?', params[:id])
+                            .update_all(tutor_rating: params[:tutor_rating])
+        head :ok
+      end
+
+      # Allows the tutor to rate the student
+      def student_review
+        AcceptedTutorRequest.where('student_rating IS NULL')
+                            .where('id = ?', params[:id])
+                            .update(params[:id], student_rating: params[:student_rating])
+        head :ok
+>>>>>>> c82a44e... Ratings
       end
 
       private

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       post :start_verify_phone, to: 'phone_verification#start'
       post :app_token, to: 'notifications#set_app_token'
       post :generate_notification, to: 'notifications#generate_notification'
+      post :tutor_review, to: 'tutor_requests#tutor_review'
+      post :student_review, to: 'student_request#student_review'
     end
   end
 end
