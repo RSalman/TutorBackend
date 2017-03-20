@@ -185,15 +185,4 @@ ActiveRecord::Schema.define(version: 20170320070431) do
     SQL_ACTIONS
   end
 
-  create_trigger("tutor_subjects_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("tutor_subjects").
-      before(:insert) do
-    <<-SQL_ACTIONS
-
-    UPDATE tutor_subjects
-    SET deleted_at = CURRENT_TIMESTAMP
-    WHERE course_id = NEW.course_id AND user_id = NEW.user_id AND deleted_at IS NULL;
-    SQL_ACTIONS
-  end
-
 end

@@ -10,6 +10,10 @@ module Api
 
       # Allows tutors to indicate which courses they can tutor and for how much
       def create
+        sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND user_id =
+              #{ActiveRecord::Base.sanitize(params[:user_id])} AND course_id =
+              #{ActiveRecord::Base.sanitize(params[:course_id])}"
+        ActiveRecord::Base.connection.execute(sql)
         tutor_subject = TutorSubject.create(tutor_subject_params)
         if tutor_subject.valid?
           json_response(tutor_subject, :created)
@@ -29,7 +33,7 @@ module Api
       private
 
       def tutor_subject_params
-        params.permit(:tutor_info_id, :course_id, :rate, :last_id)
+        params.permit(:user_id, :course_id, :rate, :last_id)
       end
     end
   end

@@ -16,6 +16,7 @@ class TutorSubject < ApplicationRecord
     # keyset pagination. The other option is to use OFFSET and LIMIT. Keyset pagination is far more
     # efficient because OFFSET/LIMIT load, say all 1000 records before loading records 1000-1020, while
     # keyset pagination only loads records 1000-1020.
+    # TODO: Check against lowercase course_prefix and course_code
     base = Course.joins(tutor_subjects: :user)
                  .group('tutor_subjects.user_id')
                  .select('users.id, users.first_name, users.agg_tutor_rating,
@@ -27,14 +28,5 @@ class TutorSubject < ApplicationRecord
     base = base.where(course_prefix: prefix) unless prefix.empty?
     base = base.where(course_code: code) unless code.empty?
     base
-  end
-
-  # When a new TutorSubject is created, automatically deletes all old TutorSubjects referencing the same course_id by
-  # the same user_id by updating their deleted_at fields to CURRENT_TIMESTAMP
-  trigger.before(:insert) do
-    '
-    UPDATE tutor_subjects
-    SET deleted_at = CURRENT_TIMESTAMP
-    WHERE course_id = NEW.course_id AND user_id = NEW.user_id AND deleted_at IS NULL;'
   end
 end

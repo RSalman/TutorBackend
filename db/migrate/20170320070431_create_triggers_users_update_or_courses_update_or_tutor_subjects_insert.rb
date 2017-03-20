@@ -43,25 +43,12 @@ class CreateTriggersUsersUpdateOrCoursesUpdateOrTutorSubjectsInsert < ActiveReco
     END IF;
       SQL_ACTIONS
     end
-
-    create_trigger("tutor_subjects_before_insert_row_tr", :generated => true, :compatibility => 1).
-        on("tutor_subjects").
-        before(:insert) do
-      <<-SQL_ACTIONS
-
-    UPDATE tutor_subjects
-    SET deleted_at = CURRENT_TIMESTAMP
-    WHERE course_id = NEW.course_id AND user_id = NEW.user_id AND deleted_at IS NULL;
-      SQL_ACTIONS
-    end
   end
 
   def down
     drop_trigger("users_after_update_row_tr", "users", :generated => true)
 
     drop_trigger("courses_after_update_row_tr", "courses", :generated => true)
-
-    drop_trigger("tutor_subjects_before_insert_row_tr", "tutor_subjects", :generated => true)
 
     create_trigger("users_after_update_row_tr", :generated => true, :compatibility => 1).
         on("users").
