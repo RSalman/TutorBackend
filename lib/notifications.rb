@@ -1,9 +1,10 @@
 # Push Notification Util Lib
+# rubocop:disable Metrics/AbcSize
 module Notifications
   # Generate Push Notification with Firebase given user id.
   # TODO: Icon / data payload specification
-  def send_notification(user_id, notification_title, notification_body)
-    user = User.find(user_id)
+  def send_notification(notifcation_params)
+    user = User.find(notifcation_params['user_id'])
     # TODO: Timeout
     uri = URI.parse(FIREBASE_API)
     header = {
@@ -13,8 +14,14 @@ module Notifications
     body = {
       to: user.app_token,
       notification: {
-        body: notification_body,
-        title: notification_title
+        body: notifcation_params['body'],
+        title: notifcation_params['title'],
+        icon: notifcation_params['icon'],
+        color: notifcation_params['color']
+      },
+      data: {
+        type: notifcation_params['type'],
+        associated_data: notifcation_params['associated_data']
       }
     }
     http = Net::HTTP.new(uri.host, uri.port)
