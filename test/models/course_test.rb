@@ -40,4 +40,9 @@ class CourseTest < ActiveSupport::TestCase
       assert true
     end
   end
+
+  test 'valid multiple null users' do
+    Course.create!(course_prefix: 'CSI', course_code: '2132', course_name: 'Database I', hidden: nil)
+    Course.create!(course_prefix: 'CSI', course_code: '2132', course_name: 'Database I', hidden: nil)
+  end
 end

@@ -16,6 +16,7 @@ class TutorSubject < ApplicationRecord
     # keyset pagination. The other option is to use OFFSET and LIMIT. Keyset pagination is far more
     # efficient because OFFSET/LIMIT load, say all 1000 records before loading records 1000-1020, while
     # keyset pagination only loads records 1000-1020.
+    # TODO: Check against lowercase course_prefix and course_code
     base = Course.joins(tutor_subjects: :user)
                  .group('tutor_subjects.user_id')
                  .select('users.id, users.first_name, users.agg_tutor_rating,
@@ -27,5 +28,20 @@ class TutorSubject < ApplicationRecord
     base = base.where(course_prefix: prefix) unless prefix.empty?
     base = base.where(course_code: code) unless code.empty?
     base
+  end
+
+  # Deletes TutorSubjects by setting the deleted_at field to CURRENT_TIMESTAMP
+  # Takes a single argument to delete a TutorSubject by id
+  # Takes two arguments to delete a TutorSubject by user_id and course_id
+  def self.hide_subject(*args)
+    if args.length == 1
+      sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id =
+                 #{ActiveRecord::Base.sanitize(args[0])}"
+      ActiveRecord::Base.connection.execute(sql)
+    elsif args.length == 2
+      sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND user_id =
+             #{ActiveRecord::Base.sanitize(args[0])} AND course_id = #{ActiveRecord::Base.sanitize(args[1])}"
+      ActiveRecord::Base.connection.execute(sql)
+    end
   end
 end

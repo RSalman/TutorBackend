@@ -39,8 +39,8 @@ module Api
 
       # Removes a pending tutor request
       def destroy
-        pending_request = PendingTutorRequest.find(params[:id])
-        pending_request.destroy
+        PendingTutorRequest.destroy(params[:id])
+        # TODO: add push notification here
         head :no_content
       end
 
