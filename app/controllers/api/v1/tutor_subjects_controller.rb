@@ -8,12 +8,10 @@ module Api
         json_response(tutor_subjects)
       end
 
-      # Allows tutors to indicate which courses they can tutor and for how much
+      # Allows tutors to indicate which courses they can tutor and for how much; deletes prior TutorSubjects prior to
+      # creating the new one
       def create
-        sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND user_id =
-              #{ActiveRecord::Base.sanitize(params[:user_id])} AND course_id =
-              #{ActiveRecord::Base.sanitize(params[:course_id])}"
-        ActiveRecord::Base.connection.execute(sql)
+        TutorSubject.hide_subject(params[:user_id], params[:course_id])
         tutor_subject = TutorSubject.create(tutor_subject_params)
         if tutor_subject.valid?
           json_response(tutor_subject, :created)
@@ -24,9 +22,7 @@ module Api
 
       # Tutors cancel previous TutorSubjects by timestamping deleted_at
       def destroy
-        sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id =
-               #{ActiveRecord::Base.sanitize(params[:id])}"
-        ActiveRecord::Base.connection.execute(sql)
+        TutorSubject.hide_subject(params[:id])
         head :no_content
       end
 

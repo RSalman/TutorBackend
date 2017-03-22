@@ -29,4 +29,19 @@ class TutorSubject < ApplicationRecord
     base = base.where(course_code: code) unless code.empty?
     base
   end
+
+  # Deletes TutorSubjects by setting the deleted_at field to CURRENT_TIMESTAMP
+  # Takes a single argument to delete a TutorSubject by id
+  # Takes two arguments to delete a TutorSubject by user_id and course_id
+  def self.hide_subject(*args)
+    if args.length == 1
+      sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id =
+                 #{ActiveRecord::Base.sanitize(args[0])}"
+      ActiveRecord::Base.connection.execute(sql)
+    elsif args.length == 2
+      sql = "UPDATE tutor_subjects SET deleted_at = CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND user_id =
+             #{ActiveRecord::Base.sanitize(args[0])} AND course_id = #{ActiveRecord::Base.sanitize(args[1])}"
+      ActiveRecord::Base.connection.execute(sql)
+    end
+  end
 end
