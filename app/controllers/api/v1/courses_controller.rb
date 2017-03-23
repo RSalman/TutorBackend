@@ -40,7 +40,7 @@ module Api
       # Not for users
       def destroy
         Course.update(params[:id], hidden: nil)
-        head :no_content
+        head :ok
       end
 
       private

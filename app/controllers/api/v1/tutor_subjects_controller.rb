@@ -23,13 +23,13 @@ module Api
       # Tutors cancel previous TutorSubjects by timestamping deleted_at
       def destroy
         TutorSubject.hide_subject(params[:id])
-        head :no_content
+        head :ok
       end
 
       private
 
       def tutor_subject_params
-        params.permit(:user_id, :course_id, :rate, :last_id)
+        params.permit(:user_id, :course_id, :rate)
       end
     end
   end

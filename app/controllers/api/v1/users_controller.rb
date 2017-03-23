@@ -27,12 +27,12 @@ module Api
         user.update(params[:user])
         # TODO: Add error-handling
         return unless user.valid?
-        head :nocontent
+        head :ok
       end
 
       def destroy
         User.destroy(params[:id])
-        head :nocontent
+        head :ok
       end
 
       private

@@ -5,13 +5,13 @@ module Api
       # Lets the user create or update their tutor description (also sets their tutor_hidden flag to false)
       def update
         User.where(id: params[:id]).update_all(description: params[:description], tutor_hidden: false)
-        head :no_content
+        head :ok
       end
 
       # Removes a user's tutor status by toggling tutor_hidden to true
       def destroy
         User.update_attribute(params[:id], :tutor_hidden, true)
-        head :no_content
+        head :ok
       end
     end
   end
