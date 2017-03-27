@@ -7,6 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
+tutor = User.create!({'first_name': 'Tutor', 'last_name': 'Test', 'password': 'password',
+                       'email': 'tutor@test.com', 'uid': '12345', 'phone_number': '6131234567'})
+
+test_course = Course.create!({'course_prefix': 'TST', 'course_code': '0001', 'course_name': 'Notifications Course'})
+tutor_subject = TutorSubject.create!({'user_id': tutor.id, 'course_id': test_course.id, 'rate': 15})
+
+tutee = User.create!({'first_name': 'Tutee', 'last_name': 'Test', 'password': 'password',
+                       'email': 'tutee@test.com', 'uid': '12346', 'phone_number': '6131234568'})
+
 encrypted_password = User.new(password: 'password').encrypted_password
 User.bulk_insert(:first_name, :last_name, :phone_number, :encrypted_password, :email, :uid,
                  :agg_tutor_rating, :agg_user_rating, :num_tutor_rating, :num_user_rating) do |worker|

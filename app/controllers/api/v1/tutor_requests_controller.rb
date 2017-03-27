@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/AbcSize
+require_dependency 'Notifications'
 module Api
   module V1
     # This defines the REST implementations for the controllers of the two tutor request models:
@@ -19,8 +21,28 @@ module Api
       # Requests a tutor given a tutor_subject_id, student_id and tutor_id
       def create
         pending_request = PendingTutorRequest.create(tutor_request_params)
-        # TODO: add push notification here
+
+        tutee = User.find(params[:student_id])
+        # Look into see if there is another way to do this.
+        course = Course.find(TutorSubject.find(params[:tutor_subject_id]).course_id)
+
+        course_code = course.course_prefix + course.course_code
+
+        data = {
+          course: course_code,
+          tutee: tutee.first_name
+        }
+
+        notifcation_params = { 'user_id' => params[:tutor_id],
+                               'title' => 'Request',
+                               'body' => 'You have a new pending request for ' + course_code,
+                               'icon' => 'hourglass',
+                               'color' =>  'none',
+                               'type' =>   'request',
+                               'associated_data' => data.to_json }
+
         if pending_request.valid?
+          Notifications.send_notification(notifcation_params)
           json_response(pending_request, :created)
         else
           json_response(pending_request.errors, :unprocessable_entity)
