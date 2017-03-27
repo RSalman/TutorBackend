@@ -9,7 +9,7 @@ module Api
 
       # Not for users
       def create
-        course = Course.create!(course_params)
+        course = Course.create(course_params)
         if course.valid?
           json_response(course, :created)
         else
