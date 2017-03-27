@@ -14,12 +14,13 @@ module Api
 
       def create
         user = User.create(user_params)
-        # TODO: Add error-handling
         if user.valid?
           json_response(user, :created)
         else
           json_response(user.errors, :unprocessable_entity)
         end
+      rescue
+        head :conflict
       end
 
       def update
