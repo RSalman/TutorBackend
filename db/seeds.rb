@@ -7,8 +7,11 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
+sample_bio = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. sheets containing Lorem Ipsum passages, and more recently with."
+sample_caption = "Passionate about sharing knowledge!"
+
 tutor = User.create!({'first_name': 'Tutor', 'last_name': 'Test', 'password': 'password',
-                       'email': 'tutor@test.com', 'uid': '12345', 'phone_number': '6131234567'})
+                       'email': 'tutor@test.com', 'uid': '12345', 'phone_number': '6131234567', 'tutor_description': sample_bio, 'tutor_short_description': sample_caption})
 
 test_course = Course.create!({'course_prefix': 'TST', 'course_code': '0001', 'course_name': 'Notifications Course'})
 tutor_subject = TutorSubject.create!({'user_id': tutor.id, 'course_id': test_course.id, 'rate': 15})
@@ -18,7 +21,7 @@ tutee = User.create!({'first_name': 'Tutee', 'last_name': 'Test', 'password': 'p
 
 encrypted_password = User.new(password: 'password').encrypted_password
 User.bulk_insert(:first_name, :last_name, :phone_number, :encrypted_password, :email, :uid,
-                 :agg_tutor_rating, :agg_user_rating, :num_tutor_rating, :num_user_rating) do |worker|
+                 :agg_tutor_rating, :agg_user_rating, :num_tutor_rating, :num_user_rating, :tutor_description, :tutor_short_description) do |worker|
   1000.times do |i|
     worker.add(first_name: Faker::Name.first_name,
                last_name: Faker::Name.last_name,
@@ -29,7 +32,9 @@ User.bulk_insert(:first_name, :last_name, :phone_number, :encrypted_password, :e
                phone_number: 100000 + i,
                encrypted_password: encrypted_password,
                uid: "testemail#{i}@test.com",
-               email: "testemail#{i}@test.com")
+               email: "testemail#{i}@test.com",
+               tutor_description: sample_bio,
+               tutor_short_description: sample_caption)
   end
 end
 
