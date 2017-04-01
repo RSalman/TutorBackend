@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show, :update, :destroy]
 
       # Allows users to create, edit, or delete their tutor profiles
-      resources :tutor_infos, only: [:update, :destroy]
+      resources :tutor_infos, only: [:update, :destroy, :index]
 
       # Create, update, and destroy are not for user use
       resources :courses, only: [:index, :create, :show, :update, :destroy]
