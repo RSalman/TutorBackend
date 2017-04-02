@@ -13,9 +13,10 @@ Rails.application.routes.draw do
       # Allows tutors to indicate which subjects they can tutor
       resources :tutor_subjects, only: [:index, :create, :destroy]
 
-      resources :tutor_requests, only: [:create, :update, :destroy]
+      resources :tutor_requests, only: [:create, :update]
       get :accepted_tutor_requests, to: 'tutor_requests#accepted'
       get :pending_tutor_requests, to: 'tutor_requests#pending'
+      post :cancel_tutor_request, to: 'tutor_requests#cancel_request'
       post :start_verify_phone, to: 'phone_verification#start'
       post :app_token, to: 'notifications#set_app_token'
       post :generate_notification, to: 'notifications#generate_notification'
