@@ -88,7 +88,6 @@ module Api
         tutor_acc_reqs = AcceptedTutorRequest.where(tutor_id: params[:tutor_id])
         results = []
         tutor_acc_reqs.each do |reqs|
-          # course = Course.find(TutorSubject.course_id)
           subject = TutorSubject.find(reqs.tutor_subject_id)
           course = Course.find(subject.course_id)
           student = User.find(reqs.student_id)
