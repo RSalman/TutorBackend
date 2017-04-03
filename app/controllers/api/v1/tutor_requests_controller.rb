@@ -83,6 +83,28 @@ module Api
         head :ok
       end
 
+      def accepted_requests_info
+        # TO-DO fix feature envy
+        tutor_acc_reqs = AcceptedTutorRequest.where(tutor_id: params[:tutor_id])
+        results = []
+        tutor_acc_reqs.each do |reqs|
+          # course = Course.find(TutorSubject.course_id)
+          subject = TutorSubject.find(reqs.tutor_subject_id)
+          course = Course.find(subject.course_id)
+          student = User.find(reqs.student_id)
+          results << {
+            subject_rate: subject.rate,
+            course_code: course.course_code,
+            student: reqs.student_id,
+            student_telephone: student.phone_number,
+            student_email: student.email,
+            student_rating: reqs.student_rating,
+            creation_date: reqs.cr_at
+          }
+        end
+        json_response(results)
+      end
+
       private
 
       def tutor_request_params

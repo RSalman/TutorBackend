@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post :generate_notification, to: 'notifications#generate_notification'
       post :tutor_review, to: 'tutor_requests#tutor_review'
       post :student_review, to: 'student_request#student_review'
+      get :accepted_requests_info, to: 'tutor_requests#accepted_requests_info'
     end
   end
 end
