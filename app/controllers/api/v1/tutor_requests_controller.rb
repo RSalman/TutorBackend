@@ -104,6 +104,25 @@ module Api
         json_response(results)
       end
 
+      def pending_requests_info
+        # TO-DO fix feature envy
+        tutor_pend_reqs = PendingTutorRequest.where(tutor_id: params[:tutor_id])
+
+        results = []
+        tutor_pend_reqs.each do |reqs|
+          student = User.find(reqs.student_id)
+          subject = TutorSubject.find(reqs.tutor_subject_id)
+          course = Course.find(subject.course_id)
+          results << {
+            subject_rate: subject.rate,
+            course_code: course.course_code,
+            student_telephone: student.phone_number,
+            student_email: student.email
+          }
+        end
+        json_response(results)
+      end
+
       private
 
       def tutor_request_params
