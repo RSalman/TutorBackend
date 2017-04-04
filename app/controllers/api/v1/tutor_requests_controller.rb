@@ -60,10 +60,27 @@ module Api
       end
 
       # Removes a pending tutor request
-      def destroy
-        pending_request = PendingTutorRequest.destroy(params[:id])
-        # TODO: add push notification here
+      def cancel_request
+        if params.key?(:tutor_id) && params.key?(:student_id) && params.key?(:subject_id)
+          pending_request = PendingTutorRequest.where('tutor_id = ? AND student_id = ? AND tutor_subject_id = ?',
+                                                      params[:tutor_id], params[:student_id], params[:subject_id]).first
+          course = Course.find(TutorSubject.find(params[:subject_id]).course_id)
+        else
+          pending_request = PendingTutorRequest.find(params[:request_id])
+          # Look into see if there is another way to do this.
+          course = Course.find(TutorSubject.find(pending_request.tutor_subject_id).course_id)
+        end
+
         pending_request.destroy
+        course_code = course.course_prefix + course.course_code
+        notifcation_params = { 'user_id' => params[:tutor_id],
+                               'title' => 'Request Cencelled',
+                               'body' => 'A request for ' + course_code + ' has been cancelled.',
+                               'icon' => 'cancel_icon',
+                               'color' =>  'none',
+                               'type' =>   'cancel' }
+        Notifications.send_notification(notifcation_params)
+
         head :ok
       end
 
