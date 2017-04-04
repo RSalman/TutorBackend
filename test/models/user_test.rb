@@ -1,9 +1,9 @@
-require 'minitest_helper'
+require 'test_helper'
 
-describe User do
-  it 'creates user' do
-    assert User.create!(email: 'test@test.com',
-                        password: 'password',
-                        uid: '123').valid?, 'User was not created'
+class UserTest < ActiveSupport::TestCase
+  test 'valid user' do
+    user = User.new(first_name: 'best', last_name: 'test', email: 'test@uottawa.ca', password: 'supersecurePassword',
+                    phone_number: '6135223652')
+    assert user.valid?
   end
 end

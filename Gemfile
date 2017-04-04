@@ -32,13 +32,22 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# 64-bit integers as PK
+gem 'rails-bigint-pk', git: 'https://github.com/Shopify/rails-bigint-pk.git'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'authy'
+
+gem 'bulk_insert'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a
   # debugger console
   gem 'byebug', platform: :mri
+
+  gem 'faker'
 end
 
 group :test do
@@ -62,6 +71,9 @@ group :development do
   # Checks to see if using Rails best practices
   gem 'rails_best_practices'
 end
+
+# For easy trigger creation
+gem 'hairtrigger'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

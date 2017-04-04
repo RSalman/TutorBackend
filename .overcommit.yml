@@ -21,6 +21,9 @@ PreCommit:
     on_warn: fail # Treat all warnings as failures
 
   Reek:
+    exclude:
+      - '/db/migrate/*'
+      - '/test/**/**'
     enabled: true
     on_warn: fail
 
