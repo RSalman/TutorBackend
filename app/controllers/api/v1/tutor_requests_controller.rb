@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/AbcSize
-require_relative '../../../../lib/Notifications'
+require_relative '../../../../lib/notifications'
 module Api
   module V1
     # This defines the REST implementations for the controllers of the two tutor request models:
