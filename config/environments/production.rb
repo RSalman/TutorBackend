@@ -89,5 +89,5 @@ Rails.application.configure do
 
   # Push notification config for Firebase
   FIREBASE_API = 'http://fcm.googleapis.com/fcm/send'
-  FIREBASE_SERVER_KEYS = { 'Android' => 'AAAAtZOgr88:APA91bH94Gs2xfFnI0LtxoLg3HXvIN8-X0f4B1EA8oVeM5pKK1AnRbogdyT-STorZc7EmyrK9Kf4hF9IGY3Oeickh-TP2kvlVsbVzDWo8QCW_6ssPmsypC55EdbEIcWoCF8iGzchQTi6', 'iOS' => 'TBD' }.freeze
+  FIREBASE_SERVER_KEYS = { 'Android' => 'TBD', 'iOS' => 'TBD' }.freeze
 end
