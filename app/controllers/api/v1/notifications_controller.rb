@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/AbcSize
-require_dependency 'Notifications'
+require_relative '../../../../lib/notifications'
 module Api
   module V1
     # Set/Update user's app token for push notifications
