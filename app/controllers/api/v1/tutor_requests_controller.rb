@@ -13,7 +13,7 @@ module Api
                                   users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
                                   courses.course_code, accepted_tutor_requests.id')
-                         .joins(:tutor, tutor_subject: :course).where(tutor_id: params[:tutor_id])
+                         .joins(:student, tutor_subject: :course).where(tutor_id: params[:tutor_id])
         json_response(tutor_requests.all)
       end
 
@@ -24,7 +24,7 @@ module Api
                                   users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
                                   courses.course_code, pending_tutor_requests.id')
-                         .joins(:tutor, tutor_subject: :course).where(tutor_id: params[:tutor_id])
+                         .joins(:student, tutor_subject: :course).where(tutor_id: params[:tutor_id])
         json_response(tutor_requests.all)
       end
 
