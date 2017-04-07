@@ -8,14 +8,24 @@ module Api
     class TutorRequestsController < ApplicationController
       # Returns all accepted tutor requests given a tutor_id
       def accepted
-        tutor_requests = AcceptedTutorRequest.where(tutor_id: params[:tutor_id])
+        tutor_requests = AcceptedTutorRequest
+                         .select('users.id AS user_id, users.first_name,
+                                  users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
+                                  tutor_subjects.rate, users.phone_number, courses.course_prefix,
+                                  courses.course_code, accepted_tutor_requests.id')
+                         .joins(:tutor, tutor_subject: :course).where(tutor_id: params[:tutor_id])
         json_response(tutor_requests.all)
       end
 
       # Returns all pending tutor requests given a tutor_id
       def pending
-        tutor_requests = PendingTutorRequest.where(tutor_id: params[:tutor_id])
-        json_response(tutor_requests)
+        tutor_requests = PendingTutorRequest
+                         .select('users.id AS user_id, users.first_name,
+                                  users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
+                                  tutor_subjects.rate, users.phone_number, courses.course_prefix,
+                                  courses.course_code, pending_tutor_requests.id')
+                         .joins(:tutor, tutor_subject: :course).where(tutor_id: params[:tutor_id])
+        json_response(tutor_requests.all)
       end
 
       # Requests a tutor given a tutor_subject_id, student_id and tutor_id
@@ -36,8 +46,8 @@ module Api
         notifcation_params = { 'user_id' => params[:tutor_id],
                                'title' => 'Request',
                                'body' => 'You have a new pending request for ' + course_code,
-                               'icon' => 'hourglass',
-                               'color' =>  'none',
+                               'icon' => 'request_new',
+                               'color' =>  'lightgrey',
                                'type' =>   'request',
                                'associated_data' => data.to_json }
 
@@ -76,8 +86,8 @@ module Api
         notifcation_params = { 'user_id' => params[:tutor_id],
                                'title' => 'Request Cencelled',
                                'body' => 'A request for ' + course_code + ' has been cancelled.',
-                               'icon' => 'cancel_icon',
-                               'color' =>  'none',
+                               'icon' => 'request_cancelled',
+                               'color' =>  'lightgrey',
                                'type' =>   'cancel' }
         Notifications.send_notification(notifcation_params)
 
