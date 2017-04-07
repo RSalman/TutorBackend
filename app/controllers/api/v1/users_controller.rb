@@ -15,6 +15,16 @@ module Api
       def create
         user = User.create(user_params)
         if user.valid?
+          # Clean all of this after demo
+          courses = params[:courseList]
+          courses.each do |course|
+            /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ course
+            next unless prefix && code
+            course = Course.where(course_code: code, course_prefix: prefix).first
+            if course.present?
+              TutorSubject.create(user_id: user.id, course_id: course.id, rate: params[:rate])
+            end
+          end
           json_response(user, :created)
         else
           json_response(user.errors.full_messages, :unprocessable_entity)
