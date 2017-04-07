@@ -43,7 +43,6 @@ Course.bulk_insert do |worker|
   worker.add(course_prefix: 'CSI', course_code: '2132', course_name: 'Database I')
   worker.add(course_prefix: 'CSI', course_code: '3131', course_name: 'Operating Systems')
   worker.add(course_prefix: 'CSI', course_code: '4107', course_name: 'Information Retrieval')
-  worker.add(course_prefix: 'SEG', course_code: '4910', course_name: 'Capstone (Part 1)')
   worker.add(course_prefix: 'SEG', course_code: '4911', course_name: 'Capstone (Part 2)')
   worker.add(course_prefix: 'CEG', course_code: '3185', course_name: 'Data communications')
 end
@@ -77,3 +76,6 @@ AcceptedTutorRequest.bulk_insert(:tutor_subject_id, :student_id, :tutor_id, igno
                tutor_id: tutor_ids.sample)
   end
 end
+
+# for demo
+Course.create!({'course_prefix': 'SEG', 'course_code': '4910', 'course_name': 'Capstone (Part 1)'})
