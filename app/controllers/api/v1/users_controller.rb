@@ -17,7 +17,7 @@ module Api
         if user.valid?
           json_response(user, :created)
         else
-          json_response(user.errors, :unprocessable_entity)
+          json_response(user.errors.full_messages, :unprocessable_entity)
         end
       rescue
         head :conflict
@@ -39,7 +39,11 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:first_name, :last_name, :email, :password, :phone_number)
+        params.permit(:first_name, :last_name, :email, :password, :phone_number, :image, :tutor_description)
+      end
+
+      def tutor_params
+        params.permit(:courseList, :rate)
       end
     end
   end
