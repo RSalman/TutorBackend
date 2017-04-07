@@ -30,11 +30,15 @@ module Api
 
       # Requests a tutor given a tutor_subject_id, student_id and tutor_id
       def create
-        pending_request = PendingTutorRequest.create(tutor_request_params)
+        # Change back after demo
+        tutor_subject = TutorSubject.where(user_id: params[:tutor_id]).first
+        pending_request = PendingTutorRequest.create(tutor_id: params[:tutor_id],
+                                                     student_id: params[:student_id],
+                                                     tutor_subject_id: tutor_subject.id)
 
         tutee = User.find(params[:student_id])
         # Look into see if there is another way to do this.
-        course = Course.find(TutorSubject.find(params[:tutor_subject_id]).course_id)
+        course = Course.find(tutor_subject.course_id)
 
         course_code = course.course_prefix + course.course_code
 
