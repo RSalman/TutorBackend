@@ -75,6 +75,21 @@ module Api
 
       # Removes a pending tutor request
       def cancel_request
+        # Remove after demo
+        pending_request = PendingTutorRequest.where(tutor_id: params[:tutor_id]).first
+        course = Course.find(TutorSubject.find(pending_request.tutor_subject_id).course_id)
+        course_code = course.course_prefix + course.course_code
+        pending_request.destroy
+        notifcation_params = { 'user_id' => params[:tutor_id],
+                               'title' => 'Request Cencelled',
+                               'body' => 'A request for ' + course_code + ' has been cancelled.',
+                               'icon' => 'request_cancelled',
+                               'color' =>  'lightgrey',
+                               'type' =>   'cancel' }
+        Notifications.send_notification(notifcation_params)
+        head :ok
+        return
+
         if params.key?(:tutor_id) && params.key?(:student_id) && params.key?(:subject_id)
           pending_request = PendingTutorRequest.where('tutor_id = ? AND student_id = ? AND tutor_subject_id = ?',
                                                       params[:tutor_id], params[:student_id], params[:subject_id]).first
