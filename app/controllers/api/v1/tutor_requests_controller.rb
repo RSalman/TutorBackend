@@ -36,8 +36,8 @@ module Api
         notifcation_params = { 'user_id' => params[:tutor_id],
                                'title' => 'Request',
                                'body' => 'You have a new pending request for ' + course_code,
-                               'icon' => 'hourglass',
-                               'color' =>  'none',
+                               'icon' => 'request_new',
+                               'color' =>  'lightgrey',
                                'type' =>   'request',
                                'associated_data' => data.to_json }
 
@@ -76,8 +76,8 @@ module Api
         notifcation_params = { 'user_id' => params[:tutor_id],
                                'title' => 'Request Cencelled',
                                'body' => 'A request for ' + course_code + ' has been cancelled.',
-                               'icon' => 'cancel_icon',
-                               'color' =>  'none',
+                               'icon' => 'request_cancelled',
+                               'color' =>  'lightgrey',
                                'type' =>   'cancel' }
         Notifications.send_notification(notifcation_params)
 
