@@ -9,6 +9,17 @@ class User < ApplicationRecord
   has_many :pending_tutor_requests
   has_many :accepted_tutor_requests
 
+  def as_json(options = nil)
+    options ||= {}
+    options[:methods] = ((options[:methods] || []) + [:is_tutor])
+    super options
+  end
+
+  def is_tutor
+    # Change this after demo
+    !tutor_subjects.empty?
+  end
+
   # Creates an audit record whenever a new User is created
   trigger.after(:insert) do
     '
