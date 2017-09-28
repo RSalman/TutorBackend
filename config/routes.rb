@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :tutor_subjects, only: [:index, :create, :destroy]
 
       resources :tutor_requests, only: [:create, :update]
+      get :accepted_student_requests, to: 'student_requests#accepted'
+      get :pending_student_requests, to: 'student_requests#pending'
       get :accepted_tutor_requests, to: 'tutor_requests#accepted'
       get :pending_tutor_requests, to: 'tutor_requests#pending'
       post :cancel_tutor_request, to: 'tutor_requests#cancel_request'
