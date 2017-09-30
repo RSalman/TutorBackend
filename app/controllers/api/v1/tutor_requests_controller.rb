@@ -10,7 +10,7 @@ module Api
       def accepted
         tutor_requests = AcceptedTutorRequest
                          .select('users.id AS user_id, users.first_name,
-                                  users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
+                                  users.last_name, users.agg_user_rating, users.num_user_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
                                   courses.course_code, accepted_tutor_requests.id')
                          .joins(:student, tutor_subject: :course).where(tutor_id: params[:tutor_id])
@@ -21,7 +21,7 @@ module Api
       def pending
         tutor_requests = PendingTutorRequest
                          .select('users.id AS user_id, users.first_name,
-                                  users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
+                                  users.last_name, users.agg_user_rating, users.num_user_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
                                   courses.course_code, pending_tutor_requests.id')
                          .joins(:student, tutor_subject: :course).where(tutor_id: params[:tutor_id])
