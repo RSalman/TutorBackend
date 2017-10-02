@@ -29,13 +29,20 @@ module Api
           course_list << course.course_prefix + course.course_code
         end
 
+        avg_rate = TutorSubject.where(:user_id => params[:tutor_id]).average(:rate)
+
+        rating = (tutor.agg_tutor_rating.to_f / tutor.num_tutor_rating.to_f).round(1)
+
         response = {
           biography: tutor.tutor_description,
           caption: tutor.tutor_short_description,
           firstname: tutor.first_name,
           lastname: tutor.last_name,
-          degree: 'PhD, SEG', # until we find out where in DB... seperate table, multiple degrees?
-          coursesTeaching: course_list
+          phonenumber: tutor.phone_number,
+          degree: tutor.education,
+          coursesTeaching: course_list,
+          rating: rating,
+          rate: avg_rate
         }
 
         # if a student id and subject id are provided, return if a pending request already exists

@@ -22,9 +22,10 @@ module Api
               /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ course
               next unless prefix and code
               course = Course.where(course_code: code, course_prefix: prefix).first
-              if not course.nil?
-                TutorSubject.create(user_id: user.id, course_id: course.id, rate: params[:rate])
+              if course.nil?
+                course = Course.create(course_prefix: prefix, course_code: code, course_name: 'N/A')
               end
+              TutorSubject.create(user_id: user.id, course_id: course.id, rate: params[:rate])
             end
           end
           json_response(user, :created)
@@ -37,11 +38,29 @@ module Api
 
       def update
         user = User.find(params[:id])
-        user.update(params[:user])
-        # TODO: Add error-handling
-        return unless user.valid?
+        user.update(user_params)
+
+        if user.valid?
+          courses = params[:courseList]
+          if courses
+            # Delete all the users courses
+            TutorSubject.where(:user_id => params[:id]).destroy_all
+            courses.each do |course|
+              /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ course
+              next unless prefix and code
+              course = Course.where(course_code: code, course_prefix: prefix).first
+              if course.nil?
+                course = Course.create(course_prefix: prefix, course_code: code, course_name: 'N/A')
+              end
+              TutorSubject.create(user_id: user.id, course_id: course.id, rate: params[:rate])
+            end
+          end
+          json_response(user, :created)
+        else
+          json_response(user.errors.full_messages, :unprocessable_entity)
+        end
         head :ok
-      end
+      end      
 
       def destroy
         User.destroy(params[:id])
@@ -51,7 +70,7 @@ module Api
       private
 
       def user_params
-        params.permit(:first_name, :last_name, :email, :password, :phone_number, :image, :tutor_description)
+        params.permit(:first_name, :last_name, :email, :password, :phone_number, :image, :tutor_description, :education)
       end
 
       def tutor_params
