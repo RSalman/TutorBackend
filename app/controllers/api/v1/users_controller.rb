@@ -74,7 +74,6 @@ module Api
               TutorSubject.create(user_id: user.id, course_id: course_to_add.id, rate: params[:rate])
             end
           end
-          json_response(user, :created)
         else
           json_response(user.errors.full_messages, :unprocessable_entity)
         end
