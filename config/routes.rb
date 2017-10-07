@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       get :pending_student_requests, to: 'student_requests#pending'
       get :accepted_tutor_requests, to: 'tutor_requests#accepted'
       get :pending_tutor_requests, to: 'tutor_requests#pending'
+      get :all_subjects_request_status, to: 'tutor_subjects#all_subjects_request_status'
       post :cancel_tutor_request, to: 'tutor_requests#cancel_request'
       post :start_verify_phone, to: 'phone_verification#start'
       post :app_token, to: 'notifications#set_app_token'
