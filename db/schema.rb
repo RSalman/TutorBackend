@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328035757) do
+ActiveRecord::Schema.define(version: 20171002051645) do
 
   create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_subject_id",                                                null: false
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20170328035757) do
     t.text     "tutor_description",       limit: 65535
     t.datetime "user_hidden_at"
     t.string   "tutor_short_description"
+    t.string   "education"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["phone_number"], name: "idx_users_phone_unique", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -108,8 +109,8 @@ ActiveRecord::Schema.define(version: 20170328035757) do
   add_foreign_key "accepted_tutor_requests", "users", column: "student_id", on_delete: :nullify
   add_foreign_key "accepted_tutor_requests", "users", column: "tutor_id", on_delete: :nullify
   add_foreign_key "pending_tutor_requests", "tutor_subjects", on_delete: :cascade
-  add_foreign_key "pending_tutor_requests", "users", column: "student_id", on_delete: :cascade
-  add_foreign_key "pending_tutor_requests", "users", column: "tutor_id", on_delete: :cascade
+  add_foreign_key "pending_tutor_requests", "users", column: "student_id"
+  add_foreign_key "pending_tutor_requests", "users", column: "tutor_id"
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "users"
   create_trigger("users_after_insert_row_tr", :generated => true, :compatibility => 1).

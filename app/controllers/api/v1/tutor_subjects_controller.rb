@@ -20,6 +20,45 @@ module Api
         end
       end
 
+      def all_subjects_request_status
+
+        tutors_courses = Course.joins(tutor_subjects: :user)
+                .select('courses.course_prefix, courses.course_code, tutor_subjects.id')
+                .where('tutor_subjects.user_id = ' + params[:tutor_id])
+
+        course_list = []
+        course_subject_id = {} # Map of course -> Tutor subject ID
+
+        tutors_courses.each do |course|
+          courseCode = course.course_prefix + course.course_code
+          course_list << courseCode
+          course_subject_id[courseCode] = course.id
+        end
+
+        student_requests = PendingTutorRequest
+                         .select('courses.course_prefix, courses.course_code')
+                         .joins(tutor_subject: :course).where('tutor_id = ? AND student_id = ?',
+                                                    params[:tutor_id], params[:student_id])
+
+        courses_requested = []
+        student_requests.each do |course|
+          courses_requested << course.course_prefix + course.course_code
+        end
+
+        courses_request_status = []
+        course_list.each do |course|
+
+          temp = {}
+          temp["course"] = course
+          temp["isRequested"] = courses_requested.include? course
+          temp["subjectID"] = course_subject_id[course]
+
+          courses_request_status << temp
+        end
+
+        json_response(courses_request_status)
+      end
+
       # Tutors cancel previous TutorSubjects by timestamping deleted_at
       def destroy
         TutorSubject.hide_subject(params[:id])

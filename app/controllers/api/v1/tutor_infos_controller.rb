@@ -20,31 +20,28 @@ module Api
         tutor = User.find(params[:tutor_id])
 
         courses = Course.joins(tutor_subjects: :user)
-                        .select('courses.course_prefix, courses.course_code')
+                        .select('courses.course_prefix, courses.course_code, tutor_subjects.id')
                         .where('tutor_subjects.user_id = ' + params[:tutor_id])
 
         course_list = []
-
         courses.each do |course|
           course_list << course.course_prefix + course.course_code
         end
+
+        avg_rate = TutorSubject.where(:user_id => params[:tutor_id]).average(:rate)
+        rating = (tutor.agg_tutor_rating.to_f / tutor.num_tutor_rating.to_f).round(1)
 
         response = {
           biography: tutor.tutor_description,
           caption: tutor.tutor_short_description,
           firstname: tutor.first_name,
           lastname: tutor.last_name,
-          degree: 'PhD, SEG', # until we find out where in DB... seperate table, multiple degrees?
-          coursesTeaching: course_list
+          phonenumber: tutor.phone_number,
+          degree: tutor.education,
+          coursesTeaching: course_list,
+          rating: rating,
+          rate: avg_rate
         }
-
-        # if a student id and subject id are provided, return if a pending request already exists
-        if params.key?(:student_id) && params.key?(:subject_id)
-          response[:requestPending] = false
-          pending_request = PendingTutorRequest.where('tutor_id = ? AND student_id = ? AND tutor_subject_id = ?',
-                                                      params[:tutor_id], params[:student_id], params[:subject_id])
-          response[:requestPending] = true unless pending_request.empty?
-        end
 
         json_response(response)
       end
