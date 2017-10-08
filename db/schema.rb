@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(version: 20171002051645) do
   add_foreign_key "accepted_tutor_requests", "users", column: "student_id", on_delete: :nullify
   add_foreign_key "accepted_tutor_requests", "users", column: "tutor_id", on_delete: :nullify
   add_foreign_key "pending_tutor_requests", "tutor_subjects", on_delete: :cascade
-  add_foreign_key "pending_tutor_requests", "users", column: "student_id"
-  add_foreign_key "pending_tutor_requests", "users", column: "tutor_id"
+  add_foreign_key "pending_tutor_requests", "users", column: "student_id", on_delete: :cascade
+  add_foreign_key "pending_tutor_requests", "users", column: "tutor_id", on_delete: :cascade
   add_foreign_key "tutor_subjects", "courses", on_delete: :cascade
   add_foreign_key "tutor_subjects", "users"
   create_trigger("users_after_insert_row_tr", :generated => true, :compatibility => 1).
