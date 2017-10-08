@@ -8,7 +8,8 @@ module Api
                            .select('users.id AS user_id, users.first_name,
                                   users.last_name, users.agg_tutor_rating, users.num_tutor_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
-                                  courses.course_code, accepted_tutor_requests.id')
+                                  courses.course_code, accepted_tutor_requests.id,
+                                  accepted_tutor_requests.tutor_rating')
                            .joins(:tutor, tutor_subject: :course).where(student_id: params[:student_id])
         json_response(student_requests.all)
       end
@@ -22,6 +23,14 @@ module Api
                                   courses.course_code, pending_tutor_requests.id')
                            .joins(:tutor, tutor_subject: :course).where(student_id: params[:student_id])
         json_response(student_requests.all)
+      end
+
+      # Allows the student to rate the tutor
+      def rate_tutor
+        AcceptedTutorRequest.where('tutor_rating IS NULL')
+                            .where('id = ?', params[:id])
+                            .update(params[:id], tutor_rating: params[:tutor_rating])
+        head :ok
       end
     end
   end

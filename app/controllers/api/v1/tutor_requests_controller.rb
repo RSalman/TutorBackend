@@ -12,7 +12,8 @@ module Api
                          .select('users.id AS user_id, users.first_name,
                                   users.last_name, users.agg_user_rating, users.num_user_rating,
                                   tutor_subjects.rate, users.phone_number, courses.course_prefix,
-                                  courses.course_code, accepted_tutor_requests.id')
+                                  courses.course_code, accepted_tutor_requests.id,
+                                  accepted_tutor_requests.student_rating')
                          .joins(:student, tutor_subject: :course).where(tutor_id: params[:tutor_id])
         json_response(tutor_requests.all)
       end
@@ -31,7 +32,7 @@ module Api
       # Requests a tutor given a tutor_subject_id, student_id and tutor_id
       def create
         pending_request = PendingTutorRequest.create(tutor_request_params)
-        tutee = User.find(params[:student_id])        
+        tutee = User.find(params[:student_id])
         course = Course.find(TutorSubject.find(params[:tutor_subject_id]).course_id)
 
         course_code = course.course_prefix + course.course_code
@@ -71,7 +72,9 @@ module Api
       def cancel_request
         if params.key?(:tutor_id) && params.key?(:student_id) && params.key?(:tutor_subject_id)
           pending_request = PendingTutorRequest.where('tutor_id = ? AND student_id = ? AND tutor_subject_id = ?',
-                                                      params[:tutor_id], params[:student_id], params[:tutor_subject_id]).first
+                                                      params[:tutor_id],
+                                                      params[:student_id],
+                                                      params[:tutor_subject_id]).first
           course = Course.find(TutorSubject.find(params[:tutor_subject_id]).course_id)
         else
           pending_request = PendingTutorRequest.find(params[:request_id])
@@ -92,16 +95,8 @@ module Api
         head :ok
       end
 
-      # Allows the student to rate the tutor
-      def tutor_review
-        AcceptedTutorRequest.where('tutor_rating IS NULL')
-                            .where('id = ?', params[:id])
-                            .update_all(tutor_rating: params[:tutor_rating])
-        head :ok
-      end
-
       # Allows the tutor to rate the student
-      def student_review
+      def rate_student
         AcceptedTutorRequest.where('student_rating IS NULL')
                             .where('id = ?', params[:id])
                             .update(params[:id], student_rating: params[:student_rating])
