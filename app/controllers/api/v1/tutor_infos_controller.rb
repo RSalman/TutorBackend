@@ -40,7 +40,8 @@ module Api
           degree: tutor.education,
           coursesTeaching: course_list,
           rating: rating,
-          rate: avg_rate
+          rate: avg_rate,
+          image: tutor.image
         }
 
         json_response(response)

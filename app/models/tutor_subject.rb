@@ -20,7 +20,7 @@ class TutorSubject < ApplicationRecord
     base = Course.joins(tutor_subjects: :user)
                  .group('tutor_subjects.user_id')
                  .select('users.id, users.first_name, users.agg_tutor_rating,
-                         users.num_tutor_rating, AVG(tutor_subjects.rate) AS average_rate')
+                         users.num_tutor_rating, AVG(tutor_subjects.rate) AS average_rate, users.image')
                  .where('tutor_subjects.deleted_at IS NULL')
                  .where('tutor_subjects.user_id > ' + last_id.to_s)
                  .limit(20)

@@ -13,6 +13,8 @@ module Api
       end
 
       def create
+        print params[:image]
+
         user = User.create(user_params)
         if user.valid?
           # Clean all of this after demo
