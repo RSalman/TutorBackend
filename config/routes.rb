@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       post :app_token, to: 'notifications#set_app_token'
       post :generate_notification, to: 'notifications#generate_notification'
       post :rate_student, to: 'tutor_requests#rate_student'
-      post :rate_tutor, to: 'student_request#rate_tutor'
+      post :rate_tutor, to: 'student_requests#rate_tutor'
     end
   end
 end
