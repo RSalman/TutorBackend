@@ -14,14 +14,17 @@ Rails.application.routes.draw do
       resources :tutor_subjects, only: [:index, :create, :destroy]
 
       resources :tutor_requests, only: [:create, :update]
+      get :accepted_student_requests, to: 'student_requests#accepted'
+      get :pending_student_requests, to: 'student_requests#pending'
       get :accepted_tutor_requests, to: 'tutor_requests#accepted'
       get :pending_tutor_requests, to: 'tutor_requests#pending'
+      get :all_subjects_request_status, to: 'tutor_subjects#all_subjects_request_status'
       post :cancel_tutor_request, to: 'tutor_requests#cancel_request'
       post :start_verify_phone, to: 'phone_verification#start'
       post :app_token, to: 'notifications#set_app_token'
       post :generate_notification, to: 'notifications#generate_notification'
-      post :tutor_review, to: 'tutor_requests#tutor_review'
-      post :student_review, to: 'student_request#student_review'
+      post :rate_student, to: 'tutor_requests#rate_student'
+      post :rate_tutor, to: 'student_requests#rate_tutor'
     end
   end
 end

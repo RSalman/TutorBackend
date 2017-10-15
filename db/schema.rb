@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328035757) do
+ActiveRecord::Schema.define(version: 20171007234501) do
 
   create_table "accepted_tutor_requests", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint   "tutor_subject_id",                                                null: false
@@ -64,13 +64,13 @@ ActiveRecord::Schema.define(version: 20170328035757) do
   end
 
   create_table "users", id: :bigint, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "provider",                              default: "email",                    null: false
-    t.string   "uid",                                   default: "",                         null: false
-    t.string   "encrypted_password",                    default: "",                         null: false
+    t.string   "provider",                                   default: "email",                    null: false
+    t.string   "uid",                                        default: "",                         null: false
+    t.string   "encrypted_password",                         default: "",                         null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",           limit: 4,     default: 0,                          null: false
+    t.integer  "sign_in_count",           limit: 4,          default: 0,                          null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -80,24 +80,25 @@ ActiveRecord::Schema.define(version: 20170328035757) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "nickname"
-    t.string   "image"
     t.string   "email"
     t.text     "tokens",                  limit: 65535
-    t.datetime "created_at",                            default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at",                            default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at",                                 default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                 default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_number"
     t.string   "app_token"
     t.string   "app_token_platform"
-    t.integer  "agg_user_rating",         limit: 4,     default: 0,                          null: false
-    t.integer  "num_user_rating",         limit: 4,     default: 0,                          null: false
-    t.integer  "agg_tutor_rating",        limit: 4,     default: 0,                          null: false
-    t.integer  "num_tutor_rating",        limit: 4,     default: 0,                          null: false
-    t.boolean  "tutor_hidden",                          default: true,                       null: false
+    t.integer  "agg_user_rating",         limit: 4,          default: 0,                          null: false
+    t.integer  "num_user_rating",         limit: 4,          default: 0,                          null: false
+    t.integer  "agg_tutor_rating",        limit: 4,          default: 0,                          null: false
+    t.integer  "num_tutor_rating",        limit: 4,          default: 0,                          null: false
+    t.boolean  "tutor_hidden",                               default: true,                       null: false
     t.text     "tutor_description",       limit: 65535
     t.datetime "user_hidden_at"
     t.string   "tutor_short_description"
+    t.string   "education"
+    t.text     "image",                   limit: 4294967295
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["phone_number"], name: "idx_users_phone_unique", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
