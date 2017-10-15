@@ -50,6 +50,8 @@ module Api
         end
 
         if user.valid?
+          #TODO: Should be in Tutor_Subjects controller, not the Users controller
+          #since what a given tutor is tutoring is independent of the tutor's information.
           updated_courses = params[:courseList]
           if updated_courses
             courses_to_remove = old_courses - updated_courses
