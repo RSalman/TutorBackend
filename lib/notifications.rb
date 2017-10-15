@@ -8,7 +8,7 @@ module Notifications
     # TODO: Timeout
     app_token = user.app_token
 
-    if app_token.to_s.empty?    
+    if !app_token.to_s.empty?    
       uri = URI.parse(FIREBASE_API)
       header = {
         :'Content-Type' => 'application/json',

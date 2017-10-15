@@ -50,10 +50,13 @@ module Api
         end
 
         if user.valid?
+          #TODO: Should be in Tutor_Subjects controller, not the Users controller
+          #since what a given tutor is tutoring is independent of the tutor's information.
           updated_courses = params[:courseList]
           if updated_courses
             courses_to_remove = old_courses - updated_courses
             courses_to_add = updated_courses - old_courses
+            courses_to_update_rate = old_courses & updated_courses
 
             courses_to_remove.each do |course|
               /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ course
@@ -61,6 +64,15 @@ module Api
               course_to_remove = Course.where(course_code: code, course_prefix: prefix).first
               if course_to_remove
                 TutorSubject.where(user_id: user.id, course_id: course_to_remove.id).first.destroy
+              end
+            end
+
+            courses_to_update_rate.each do |course|
+              /(?<prefix>[[:alpha:]]*)[[:space:]]*(?<code>[[:digit:]]*)/ =~ course
+              next unless prefix and code
+              to_update = Course.where(course_code: code, course_prefix: prefix).first
+              if to_update
+                TutorSubject.where(user_id: user.id, course_id: to_update.id).first.update(rate: params[:rate])
               end
             end
 
