@@ -32,9 +32,6 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# 64-bit integers as PK
-gem 'rails-bigint-pk', git: 'https://github.com/Shopify/rails-bigint-pk.git'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -51,7 +48,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'database_cleaner', '= 1.6.1'
 end
 
 group :development do
